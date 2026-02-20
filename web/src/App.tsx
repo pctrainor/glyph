@@ -52,7 +52,7 @@ export default function App() {
     <div className="app">
       <nav className="navbar">
         <div className="nav-brand">
-          <img src={`${import.meta.env.BASE_URL}app-icon.png`} alt="Glyph" className="nav-logo" />
+          <img src={`${import.meta.env.BASE_URL}glyph-logo.svg`} alt="Glyph" className="nav-logo" />
           <span className="nav-title">Glyph</span>
         </div>
         <div className="nav-links">

@@ -27,11 +27,8 @@ struct HomeView: View {
                     
                     // Logo area
                     VStack(spacing: 12) {
-                        // Glyph icon
-                        Image(systemName: "qrcode")
-                            .font(.system(size: 64, weight: .thin))
-                            .foregroundStyle(GlyphTheme.accentGradient)
-                            .shadow(color: GlyphTheme.accent.opacity(0.4), radius: 20)
+                        // Glyph logo
+                        GlyphLogoView(size: 100)
                         
                         Text("Glyph")
                             .font(.system(size: 42, weight: .bold, design: .rounded))

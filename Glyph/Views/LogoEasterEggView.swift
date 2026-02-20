@@ -40,11 +40,8 @@ struct LogoEasterEggView: View {
             VStack(spacing: 28) {
                 Spacer()
 
-                // QR icon — animated entrance
-                Image(systemName: "qrcode")
-                    .font(.system(size: 100, weight: .thin))
-                    .foregroundStyle(GlyphTheme.accentGradient)
-                    .shadow(color: GlyphTheme.accent.opacity(0.6), radius: glowRadius)
+                // QR logo — animated entrance
+                GlyphLogoView(size: 140, glowRadius: glowRadius, glowOpacity: 0.6)
                     .scaleEffect(iconScale)
                     .opacity(iconOpacity)
 

@@ -47,6 +47,7 @@
 		A2000050 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000051 /* OnboardingView.swift */; };
 		A2000052 /* AgentComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000052 /* AgentComposeView.swift */; };
 		A2000053 /* AgentLLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000053 /* AgentLLM.swift */; };
+		A2000054 /* GlyphLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000054 /* GlyphLogoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		B2000051 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B2000052 /* AgentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentComposeView.swift; sourceTree = "<group>"; };
 		B2000053 /* AgentLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLLM.swift; sourceTree = "<group>"; };
+		B2000054 /* GlyphLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLogoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				B2000047 /* UnlockFlowView.swift */,
 				B2000051 /* OnboardingView.swift */,
 				B2000052 /* AgentComposeView.swift */,
+				B2000054 /* GlyphLogoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				A2000050 /* OnboardingView.swift in Sources */,
 				A2000052 /* AgentComposeView.swift in Sources */,
 				A2000053 /* AgentLLM.swift in Sources */,
+				A2000054 /* GlyphLogoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

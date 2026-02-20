@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#66D9FF"/>
+      <stop offset="100%" stop-color="#9966FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Top-left finder -->
+  <rect x="2" y="2" width="52" height="52" rx="9" ry="9" stroke="url(#g)" stroke-width="7" fill="none"/>
+  <rect x="16.5" y="16.5" width="23" height="23" rx="4.5" ry="4.5" fill="url(#g)"/>
+  <!-- Top-right finder -->
+  <rect x="66" y="2" width="52" height="52" rx="9" ry="9" stroke="url(#g)" stroke-width="7" fill="none"/>
+  <rect x="80.5" y="16.5" width="23" height="23" rx="4.5" ry="4.5" fill="url(#g)"/>
+  <!-- Bottom-left finder -->
+  <rect x="2" y="66" width="52" height="52" rx="9" ry="9" stroke="url(#g)" stroke-width="7" fill="none"/>
+  <rect x="16.5" y="80.5" width="23" height="23" rx="4.5" ry="4.5" fill="url(#g)"/>
+  <!-- Bottom-right sparkle -->
+  <path d="M92 74 Q96.5 87.5 106 92 Q96.5 96.5 92 106 Q87.5 96.5 78 92 Q87.5 87.5 92 74Z" fill="url(#g)"/>
+</svg>
