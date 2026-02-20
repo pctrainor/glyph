@@ -5,38 +5,39 @@ import {
   createMessage,
   EXPIRATION_OPTIONS,
 } from './glyphCrypto'
+import DemosPage from './Demos'
 import './App.css'
 
 // ─── Preset Messages ─────────────────────────────────────────────────
 
 const PRESETS = [
   {
-    label: '👋 Hello World',
+    label: 'Hello World',
     text: 'Hello from Glyph! This message will vanish after you read it.',
     expiration: 30,
   },
   {
-    label: '🔐 Secret Note',
+    label: 'Secret Note',
     text: "This is a secret. Once your timer runs out, it\u2019s gone forever. No screenshots. No traces.",
     expiration: 10,
   },
   {
-    label: '🎯 Read Once',
+    label: 'Read Once',
     text: 'You get ONE look at this message. Make it count.',
     expiration: -1,
   },
   {
-    label: '⏳ 5 Minute Memo',
+    label: '5 Minute Memo',
     text: 'You have 5 minutes to read this. Take your time... but not too much time.',
     expiration: 300,
   },
   {
-    label: '🚀 Welcome Tester',
+    label: 'Welcome Tester',
     text: "Welcome to the Glyph beta! You\u2019re one of the first people to use vanishing QR messages. Try creating your own in the app!",
     expiration: 60,
   },
   {
-    label: '♾️ Permanent',
+    label: 'Permanent',
     text: 'This message lives forever. No timer, no expiration. Just a message in a QR code.',
     expiration: -2,
   },
@@ -45,13 +46,13 @@ const PRESETS = [
 // ─── App ──────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'generate'>('home')
+  const [activeTab, setActiveTab] = useState<'home' | 'generate' | 'demos'>('home')
 
   return (
     <div className="app">
       <nav className="navbar">
         <div className="nav-brand">
-          <span className="nav-logo">◆</span>
+          <img src={`${import.meta.env.BASE_URL}app-icon.png`} alt="Glyph" className="nav-logo" />
           <span className="nav-title">Glyph</span>
         </div>
         <div className="nav-links">
@@ -67,6 +68,12 @@ export default function App() {
           >
             Generate QR
           </button>
+          <button
+            className={`nav-link ${activeTab === 'demos' ? 'active' : ''}`}
+            onClick={() => setActiveTab('demos')}
+          >
+            Demos
+          </button>
           <a
             href="https://testflight.apple.com/join/YOUR_LINK"
             className="nav-cta"
@@ -78,11 +85,17 @@ export default function App() {
         </div>
       </nav>
 
-      {activeTab === 'home' ? <HeroSection onGenerate={() => setActiveTab('generate')} /> : <GeneratorSection />}
+      {activeTab === 'home' ? (
+        <HeroSection onGenerate={() => setActiveTab('generate')} onDemos={() => setActiveTab('demos')} />
+      ) : activeTab === 'demos' ? (
+        <DemosPage />
+      ) : (
+        <GeneratorSection />
+      )}
 
       <footer className="footer">
         <div className="footer-content">
-          <span className="footer-logo">◆</span>
+          <img src={`${import.meta.env.BASE_URL}app-icon.png`} alt="Glyph" className="footer-logo" />
           <p>Glyph — Vanishing QR Messages</p>
           <p className="footer-sub">
             End-to-end encrypted with AES-256-GCM. Messages exist only in the
@@ -96,7 +109,7 @@ export default function App() {
 
 // ─── Hero Section ─────────────────────────────────────────────────────
 
-function HeroSection({ onGenerate }: { onGenerate: () => void }) {
+function HeroSection({ onGenerate, onDemos }: { onGenerate: () => void; onDemos: () => void }) {
   return (
     <main className="hero">
       <div className="hero-content">
@@ -115,6 +128,9 @@ function HeroSection({ onGenerate }: { onGenerate: () => void }) {
           <button className="btn btn-primary" onClick={onGenerate}>
             Generate a Test QR
           </button>
+          <button className="btn btn-secondary" onClick={onDemos}>
+            Try Live Demos
+          </button>
           <a
             href="https://testflight.apple.com/join/YOUR_LINK"
             className="btn btn-secondary"
@@ -127,7 +143,7 @@ function HeroSection({ onGenerate }: { onGenerate: () => void }) {
 
         <div className="features">
           <div className="feature-card">
-            <div className="feature-icon">🔐</div>
+            <div className="feature-icon">AES</div>
             <h3>AES-256-GCM</h3>
             <p>
               Military-grade encryption. Every message gets a unique 256-bit
@@ -135,14 +151,14 @@ function HeroSection({ onGenerate }: { onGenerate: () => void }) {
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">⏱️</div>
+            <div className="feature-icon">T</div>
             <h3>Self-Destructing</h3>
             <p>
               Set a timer — 10 seconds, 30 seconds, read-once. Then it's gone.
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">📡</div>
+            <div className="feature-icon">QR</div>
             <h3>No Servers</h3>
             <p>
               Everything lives in the QR code. No cloud, no database, no
@@ -150,21 +166,21 @@ function HeroSection({ onGenerate }: { onGenerate: () => void }) {
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">📸</div>
+            <div className="feature-icon">///</div>
             <h3>Scan to Reveal</h3>
             <p>
               Point your camera. The message appears. The countdown begins.
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">🤖</div>
+            <div className="feature-icon">AI</div>
             <h3>AI Agents</h3>
             <p>
               Chat with 6 unique AI personas — Oracle, Poet, Glitch, and more.
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">🌐</div>
+            <div className="feature-icon">EXP</div>
             <h3>Experiences</h3>
             <p>
               Create interactive web experiences — trivia, stories, surveys —
@@ -236,7 +252,6 @@ function GeneratorSection() {
         flashOnScan,
         senderName: senderName.trim() || undefined,
         senderHandle: senderName.trim() ? `@${senderName.trim().toLowerCase().replace(/\s+/g, '')}` : undefined,
-        senderEmoji: '◆',
       })
 
       const encrypted = await encryptMessage(payload)
@@ -288,7 +303,7 @@ function GeneratorSection() {
     <main className="generator">
       <div className="generator-content">
         <h1 className="generator-title">
-          <span className="generator-icon">◆</span> Generate a Glyph QR
+          Generate a Glyph QR
         </h1>
         <p className="generator-subtitle">
           Create an encrypted QR code that Glyph app users can scan. The message
@@ -358,7 +373,7 @@ function GeneratorSection() {
                 checked={flashOnScan}
                 onChange={(e) => setFlashOnScan(e.target.checked)}
               />
-              <span className="toggle-label">⚡ Flash on scan</span>
+              <span className="toggle-label">Flash on scan</span>
             </label>
           </div>
 
@@ -367,7 +382,7 @@ function GeneratorSection() {
             onClick={generate}
             disabled={isGenerating || !message.trim()}
           >
-            {isGenerating ? '🔐 Encrypting...' : '◆ Generate Encrypted QR'}
+            {isGenerating ? 'Encrypting...' : 'Generate Encrypted QR'}
           </button>
 
           {error && <div className="error-msg">{error}</div>}
@@ -378,7 +393,7 @@ function GeneratorSection() {
           <div className="qr-output" ref={qrRef}>
             <div className="qr-card">
               <div className="qr-badge">
-                🔐 AES-256-GCM Encrypted • {expirationLabel}
+                AES-256-GCM Encrypted \u00b7 {expirationLabel}
               </div>
               <img
                 src={qrDataUrl}
@@ -390,7 +405,7 @@ function GeneratorSection() {
               </p>
               <div className="qr-actions">
                 <button className="btn btn-secondary" onClick={downloadQR}>
-                  📥 Download PNG
+                  Download PNG
                 </button>
                 <button
                   className="btn btn-secondary"
@@ -400,7 +415,7 @@ function GeneratorSection() {
                     }
                   }}
                 >
-                  📋 Copy Payload
+                  Copy Payload
                 </button>
               </div>
             </div>
