@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>DRIFT</title>
+<style>
+*{margin:0;padding:0}
+body{background:#0a0a14;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+canvas{display:block}
+#menu{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;background:#0a0a14}
+#menu h1{font-size:3em;font-weight:900;font-family:-apple-system,system-ui,sans-serif;background:linear-gradient(135deg,#4af,#a6f,#f4a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:4px}
+#menu .sub{color:#556;font-size:.85em;font-family:-apple-system,system-ui,sans-serif;margin:8px 0 28px}
+#menu .go{padding:14px 44px;background:linear-gradient(135deg,#4af,#a6f);color:#000;font-weight:800;font-size:1.1em;border:none;border-radius:30px;cursor:pointer;font-family:-apple-system,system-ui,sans-serif;pointer-events:auto}
+#menu .tag{position:absolute;bottom:24px;color:#222;font-size:.7em;font-family:-apple-system,system-ui,sans-serif}
+#menu .inst{color:#778;font-size:.8em;font-family:-apple-system,system-ui,sans-serif;margin-bottom:20px;text-align:center;line-height:1.6}
+#over{display:none;position:fixed;inset:0;flex-direction:column;align-items:center;justify-content:center;z-index:3;background:#0a0a14dd}
+#over h2{font-size:1.8em;font-weight:800;color:#f46;font-family:-apple-system,system-ui,sans-serif;margin-bottom:4px}
+#over .fs{font-size:3.5em;font-weight:900;background:linear-gradient(135deg,#4af,#a6f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0}
+#over .det{color:#667;font-size:.85em;font-family:-apple-system,system-ui,sans-serif;margin-bottom:20px}
+#over .go{padding:12px 36px;background:linear-gradient(135deg,#4af,#a6f);color:#000;font-weight:800;font-size:1em;border:none;border-radius:30px;cursor:pointer;font-family:-apple-system,system-ui,sans-serif;pointer-events:auto}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="menu">
+<h1>D R I F T</h1>
+<div class="sub">A micro-platformer</div>
+<div class="inst">👆 Tap to jump<br>✋ Hold to drift/float<br>💎 Collect crystals · Dodge hazards</div>
+<button class="go" onclick="go()">PLAY</button>
+<div class="tag">🔮 Delivered via Glyph · No internet needed</div>
+</div>
+<div id="over"><h2>GAME OVER</h2><div class="fs" id="fs">0</div><div class="det" id="det"></div><button class="go" onclick="go()">RETRY</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,dpr;
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';x.setTransform(dpr,0,0,dpr,0,0);}
+resize();addEventListener('resize',resize);
+
+// Game state
+let P,cam,plats,crystals,hazards,parts,bg,score,dist,hp,chain,chainT,hi=0,run2=false,hold=false,grav,drift,fr;
+const TS=32,G=0.55,JMP=-11,DRIFT_G=0.08,SPD=3;
+const C1='#4af',C2='#a6f',C3='#f4a',C4='#4fa';
+
+function go(){
+  document.getElementById('menu').style.display='none';
+  document.getElementById('over').style.display='none';
+  resize();
+  x.fillStyle='#0a0a14';x.fillRect(0,0,W,H);
+  cam={x:0,y:0};score=0;dist=0;hp=3;chain=1;chainT=0;fr=0;
+  P={x:80,y:H-120,vy:0,onG:false,r:8,jumps:0};
+  plats=[];crystals=[];hazards=[];parts=[];
+  // Seed initial platforms
+  bg=[];for(let i=0;i<40;i++)bg.push({x:Math.random()*W*3,y:Math.random()*H,s:Math.random()*3+1,a:Math.random()*.15+.05,c:i%3===0?C2:C1});
+  genChunk(0);genChunk(W);genChunk(W*2);
+  // Ground
+  plats.push({x:-100,y:H-40,w:W+200,h:30,t:'ground'});
+  run2=true;loop();
+}
+
+function genChunk(startX){
+  let y=H-80;
+  for(let i=0;i<6;i++){
+    let px=startX+80+i*100+Math.random()*40;
+    let py=y-Math.random()*120;
+    let pw=50+Math.random()*60;
+    let t=Math.random()<.15?'bounce':Math.random()<.1?'crumble':'solid';
+    plats.push({x:px,y:py,w:pw,h:10,t:t,life:1});
+    // Crystal above some platforms
+    if(Math.random()<.5)crystals.push({x:px+pw/2,y:py-30,r:6,pulse:Math.random()*6,got:false});
+    // Hazards
+    if(i>1&&Math.random()<.25){
+      hazards.push({x:px+pw/2,y:py-12,w:pw*.6,h:8});
+    }
+    y=py;
+  }
+}
+
+function boom(bx,by,col,n){for(let i=0;i<n;i++){let a=Math.random()*Math.PI*2,s=1+Math.random()*3;parts.push({x:bx,y:by,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:1+Math.random()*2,life:1,d:.02+Math.random()*.03,c:col});}}
+
+function loop(){
+  if(!run2)return;
+  requestAnimationFrame(loop);
+  fr++;
+  let dt=1;
+
+  // --- Physics ---
+  // Gravity
+  if(hold&&P.vy>0)P.vy+=DRIFT_G; else P.vy+=G;
+  if(P.vy>14)P.vy=14;
+  P.y+=P.vy;
+  // Auto-scroll
+  let spd=SPD+dist*0.0003;
+  cam.x+=spd;
+  P.x+=spd;
+  dist+=spd;
+
+  // Platform collision
+  P.onG=false;
+  for(let i=plats.length-1;i>=0;i--){
+    let pl=plats[i];
+    if(pl.t==='crumble'&&pl.life<=0){plats.splice(i,1);continue;}
+    // Off screen left? remove (except ground)
+    if(pl.x+pl.w<cam.x-100&&pl.t!=='ground'){plats.splice(i,1);continue;}
+    // Collision: player falling onto top
+    if(P.vy>=0&&P.x>pl.x-4&&P.x<pl.x+pl.w+4&&P.y+P.r>=pl.y&&P.y+P.r<=pl.y+pl.h+P.vy+2){
+      P.y=pl.y-P.r;P.vy=0;P.onG=true;P.jumps=0;
+      if(pl.t==='bounce'){P.vy=JMP*1.4;chain++;chainT=0;boom(P.x,P.y,C4,6);}
+      if(pl.t==='crumble'){pl.life-=0.02;}
+    }
+  }
+
+  // Collect crystals
+  for(let i=crystals.length-1;i>=0;i--){
+    let cr=crystals[i];
+    if(cr.got){crystals.splice(i,1);continue;}
+    if(cr.x<cam.x-100){crystals.splice(i,1);continue;}
+    let dx=P.x-cr.x,dy=P.y-cr.y;
+    if(Math.sqrt(dx*dx+dy*dy)<P.r+cr.r+4){
+      cr.got=true;score+=10*chain;chainT=0;if(chain<8)chain++;
+      boom(cr.x,cr.y,C1,8);
+    }
+  }
+
+  // Hazard collision
+  for(let i=hazards.length-1;i>=0;i--){
+    let hz=hazards[i];
+    if(hz.x+hz.w<cam.x-100){hazards.splice(i,1);continue;}
+    if(P.x>hz.x-P.r&&P.x<hz.x+hz.w+P.r&&P.y+P.r>hz.y&&P.y-P.r<hz.y+hz.h){
+      hp--;chain=1;boom(P.x,P.y,'#f46',15);
+      P.vy=JMP*0.5;
+      hazards.splice(i,1);
+      if(hp<=0){die();return;}
+    }
+  }
+
+  // Chain timer
+  chainT+=dt;if(chainT>120)chain=1;
+
+  // Fall death
+  if(P.y>cam.y+H+100){die();return;}
+
+  // Generate new chunks
+  let rightEdge=plats.reduce((m,p)=>Math.max(m,p.x+p.w),0);
+  if(rightEdge<cam.x+W*2)genChunk(rightEdge+60);
+
+  // Particles
+  for(let i=parts.length-1;i>=0;i--){let p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.04;p.life-=p.d;if(p.life<=0)parts.splice(i,1);}
+
+  // --- DRAW ---
+  let ox=cam.x,oy=cam.y;
+  // Clear
+  x.fillStyle='#0a0a14';x.fillRect(0,0,W,H);
+
+  // Parallax bg
+  bg.forEach(b=>{
+    x.globalAlpha=b.a;x.fillStyle=b.c;
+    let bx=(b.x-ox*b.s*.1)%W;if(bx<0)bx+=W;
+    x.beginPath();x.arc(bx,b.y,b.s,0,Math.PI*2);x.fill();
+  });
+  x.globalAlpha=1;
+
+  // Platforms
+  plats.forEach(pl=>{
+    let px=pl.x-ox,py=pl.y-oy;
+    if(px>W+50||px+pl.w<-50)return;
+    if(pl.t==='ground'){x.fillStyle='#1a1a2e';x.fillRect(px,py,pl.w,pl.h);}
+    else if(pl.t==='bounce'){x.fillStyle=C4;x.shadowColor=C4;x.shadowBlur=8;x.fillRect(px,py,pl.w,pl.h);x.shadowBlur=0;}
+    else if(pl.t==='crumble'){x.globalAlpha=pl.life;x.fillStyle='#664';x.fillRect(px,py,pl.w,pl.h);x.globalAlpha=1;}
+    else{x.fillStyle='#2a2a3e';x.fillRect(px,py,pl.w,pl.h);x.fillStyle='#3a3a5e';x.fillRect(px,py,pl.w,2);}
+  });
+
+  // Hazards
+  hazards.forEach(hz=>{
+    let hx=hz.x-ox,hy=hz.y-oy;
+    if(hx>W+20||hx+hz.w<-20)return;
+    x.fillStyle='#f46';x.shadowColor='#f46';x.shadowBlur=6;
+    // Spikes
+    for(let i=0;i<hz.w;i+=8){x.beginPath();x.moveTo(hx+i,hy+hz.h);x.lineTo(hx+i+4,hy);x.lineTo(hx+i+8,hy+hz.h);x.fill();}
+    x.shadowBlur=0;
+  });
+
+  // Crystals
+  crystals.forEach(cr=>{
+    if(cr.got)return;
+    let cx=cr.x-ox,cy=cr.y-oy;
+    if(cx>W+20||cx<-20)return;
+    cr.pulse+=.08;
+    let s=1+Math.sin(cr.pulse)*.15;
+    x.globalAlpha=.12;x.fillStyle=C1;x.beginPath();x.arc(cx,cy,cr.r*3*s,0,Math.PI*2);x.fill();
+    x.globalAlpha=1;x.fillStyle=C1;x.shadowColor=C1;x.shadowBlur=10;
+    // Diamond shape
+    x.beginPath();x.moveTo(cx,cy-cr.r*s);x.lineTo(cx+cr.r*.7*s,cy);x.lineTo(cx,cy+cr.r*s);x.lineTo(cx-cr.r*.7*s,cy);x.closePath();x.fill();
+    x.shadowBlur=0;
+  });
+
+  // Player
+  let px=P.x-ox,py=P.y-oy;
+  let pc=chain>4?C3:chain>2?C2:C1;
+  // Trail
+  if(fr%2===0)parts.push({x:P.x,y:P.y+P.r,vx:(Math.random()-.5)*.5,vy:.5,r:2,life:.6,d:.03,c:pc});
+  // Drift glow
+  if(hold&&!P.onG){
+    x.globalAlpha=.2;x.fillStyle=pc;x.beginPath();x.arc(px,py,P.r*3,0,Math.PI*2);x.fill();x.globalAlpha=1;
+  }
+  // Body
+  x.fillStyle=pc;x.shadowColor=pc;x.shadowBlur=16;
+  x.beginPath();x.arc(px,py,P.r,0,Math.PI*2);x.fill();
+  x.fillStyle='#fff';x.shadowBlur=0;
+  x.beginPath();x.arc(px,py,P.r*.35,0,Math.PI*2);x.fill();
+
+  // Particles
+  parts.forEach(p=>{
+    let ppx=p.x-ox,ppy=p.y-oy;
+    x.globalAlpha=p.life;x.fillStyle=p.c;
+    x.beginPath();x.arc(ppx,ppy,p.r*p.life,0,Math.PI*2);x.fill();
+  });
+  x.globalAlpha=1;
+
+  // HUD
+  x.font='bold 20px -apple-system,system-ui,sans-serif';x.textAlign='left';
+  // Hearts
+  for(let i=0;i<3;i++){x.fillStyle=i<hp?'#f46':'#333';x.fillText('●',16+i*24,32);}
+  // Score
+  x.fillStyle='#fff';x.textAlign='center';
+  x.fillText(score,W/2,32);
+  // Distance
+  x.fillStyle='#556';x.font='12px -apple-system,system-ui,sans-serif';
+  x.fillText(Math.floor(dist/10)+'m',W/2,48);
+  // Chain
+  if(chain>1){
+    x.fillStyle=pc;x.font='bold 16px -apple-system,system-ui,sans-serif';
+    x.fillText('x'+chain,W/2,66);
+  }
+  // High score
+  if(hi>0){x.fillStyle='#336';x.font='11px -apple-system,system-ui,sans-serif';x.textAlign='right';x.fillText('HI '+hi,W-16,32);}
+}
+
+function die(){
+  run2=false;if(score>hi)hi=score;
+  boom(P.x,P.y,'#f46',25);
+  // Draw final particles
+  let pf=0;function deathAnim(){if(pf++>30){
+    document.getElementById('fs').textContent=score;
+    document.getElementById('det').textContent=Math.floor(dist/10)+'m · '+crystals.length+' 💎 · Best: '+hi;
+    document.getElementById('over').style.display='flex';return;}
+    requestAnimationFrame(deathAnim);
+    x.fillStyle='rgba(10,10,20,0.1)';x.fillRect(0,0,W,H);
+    parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.04;p.life-=p.d;
+    if(p.life>0){x.globalAlpha=p.life;x.fillStyle=p.c;x.beginPath();x.arc(p.x-cam.x,p.y-cam.y,p.r*p.life,0,Math.PI*2);x.fill();}});
+    x.globalAlpha=1;
+  }deathAnim();
+}
+
+// Controls — on canvas only so buttons work
+c.addEventListener('touchstart',e=>{e.preventDefault();hold=true;if(run2&&P){if(P.onG||P.jumps<2){P.vy=JMP;P.jumps++;P.onG=false;}}},{passive:false});
+c.addEventListener('touchend',e=>{hold=false;},{passive:false});
+c.addEventListener('mousedown',e=>{hold=true;if(run2&&P){if(P.onG||P.jumps<2){P.vy=JMP;P.jumps++;P.onG=false;}}});
+c.addEventListener('mouseup',()=>{hold=false;});
+addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat){hold=true;if(run2&&P){if(P.onG||P.jumps<2){P.vy=JMP;P.jumps++;P.onG=false;}}}});
+addEventListener('keyup',e=>{if(e.code==='Space')hold=false;});
+</script>
+</body>
+</html>

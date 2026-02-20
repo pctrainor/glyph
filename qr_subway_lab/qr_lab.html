@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔮 Glyph Subway QR Lab</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        background: #0a0a14;
+        color: #e0e0e0;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    h1 {
+        font-size: 2.2em;
+        background: linear-gradient(135deg, #66d9ff, #9966ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+    }
+    .subtitle {
+        color: #777;
+        font-size: 1em;
+        margin-bottom: 30px;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 24px;
+    }
+    .card {
+        background: #12121e;
+        border: 1px solid #222;
+        border-radius: 16px;
+        padding: 24px;
+        transition: border-color 0.2s;
+    }
+    .card:hover {
+        border-color: #66d9ff44;
+    }
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+    .card-header h2 {
+        font-size: 1.2em;
+        color: #fff;
+    }
+    .badge {
+        font-size: 0.65em;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        color: #000;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .desc {
+        color: #999;
+        font-size: 0.9em;
+        margin-bottom: 16px;
+        line-height: 1.5;
+    }
+    .qr-container {
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+    .qr-img {
+        width: 280px;
+        height: 280px;
+        image-rendering: pixelated;
+    }
+    .stats {
+        display: flex;
+        gap: 20px;
+        font-size: 0.8em;
+        color: #888;
+        margin-bottom: 12px;
+    }
+    .stats strong {
+        color: #66d9ff;
+    }
+    .expect {
+        background: #1a1a2e;
+        border-left: 3px solid #66d9ff;
+        padding: 10px 14px;
+        font-size: 0.85em;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+    details {
+        font-size: 0.8em;
+        color: #666;
+    }
+    summary {
+        cursor: pointer;
+        color: #888;
+        font-weight: 600;
+    }
+    pre {
+        background: #0d0d18;
+        padding: 10px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-top: 8px;
+        font-size: 0.85em;
+        white-space: pre-wrap;
+        word-break: break-all;
+        color: #aaa;
+    }
+    .header-info {
+        background: #1a1a2e;
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        font-size: 0.9em;
+    }
+    .header-info code {
+        background: #252540;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #66d9ff;
+    }
+    .nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+    .nav a {
+        padding: 8px 16px;
+        background: #1a1a2e;
+        color: #66d9ff;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        border: 1px solid #333;
+        transition: all 0.2s;
+    }
+    .nav a:hover {
+        background: #66d9ff22;
+        border-color: #66d9ff44;
+    }
+</style>
+</head>
+<body>
+    <h1>🔮 Glyph Subway QR Lab</h1>
+    <p class="subtitle">Scan each QR code with your iPhone camera to test how iOS handles it natively.</p>
+    
+    <div class="header-info">
+        📱 <strong>Instructions:</strong> Open your iPhone camera, point it at each QR code on this screen.
+        Watch what iOS does — does it show a contact card? A URL banner? A Wi-Fi prompt?
+        <br><br>
+        🌐 This page is also available at: <code>http://192.168.1.6:8899</code>
+        <br>
+        Generated: <code>2026-02-14 08:13:13</code>
+    </div>
+    
+    <div class="nav">
+        <a href="#vcard-photo-48">vCard + Photo (48px)</a><a href="#vcard-photo-64">vCard + Photo (64px)</a><a href="#vcard-text-only">vCard Text Only (No Photo)</a><a href="#plain-url">Plain URL</a><a href="#wifi-creds">Wi-Fi Credentials</a><a href="#mecard">MECARD Format</a><a href="#vcard-mystery">vCard 'Mystery Drop'</a><a href="#plain-text">Plain Text Message</a>
+    </div>
+    
+    <div class="grid">
+        
+        <div class="card" id="vcard-photo-48">
+            <div class="card-header">
+                <span class="badge" style="background:#66d9ff">SUBWAY</span>
+                <h2>vCard + Photo (48px)</h2>
+            </div>
+            <p class="desc">Full vCard with 48×48 JPEG thumbnail embedded. iOS should prompt 'Add Contact?' with the photo visible as the contact picture.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,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" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>27</strong></span>
+                <span>Payload: <strong>1470 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> Contact prompt with thumbnail, message in Notes, URL in website field
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>BEGIN:VCARD
+VERSION:3.0
+FN:🔮 Glyph Drop
+ORG:Glyph
+NOTE:You found a Glyph drop! 🔮 This secret message was left for you in the subway. Download Glyph to leave your own.
+URL:https://apps.apple.com/app/glyph/id000000000
+PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0
+... (1464 total chars)</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="vcard-photo-64">
+            <div class="card-header">
+                <span class="badge" style="background:#66d9ff">SUBWAY</span>
+                <h2>vCard + Photo (64px)</h2>
+            </div>
+            <p class="desc">Larger 64×64 thumbnail. Tests if the QR is still scannable at this density.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABYIAAAWCAQAAAACBF661AAAhEElEQVR4nO2dTY4cRxKsvzIS0JK6wRyFvJkwNyOPohs0lwNQiIf8CXeLLL3FLCb17CG/RYvdlZlVKAhweLib2WuQxQ+RhkhDpCHSEGmINEQaIg2RhkhDpCHSEGmINEQaIg2RhkhDpCH4+Tr59vP1Av6qXz/Dj9frxY/ftwbr979e/Hh9Zr9jf2G/4/XaXjj+9jvsv75e+x3bvczHH//aHnr+ur3R+YDz8a9v7A/YfuxvtP1ad5x/i/yOwxBpiDREGiINkYZIQ8QxxsenscPX7V/fv/za/gbj+/by1/FrXvllv+R84bhjf8D37YWd/dXtecfF8Gk+dD5qjO1529/OR33ZnvOx372/+Xbb9gn299g/y/f9Kfv77Y/K+45FGiINkYZIQ6Qh0hBpiDjGUaNmeTqL3FH45q9bebIatZWivQqdt1VZrL/thWpWsLGUwPn48z2qDp41bz55L5DHr7NAnuUz7zsWaYg0RBoiDZGGSEOkIbJrHmeJ2WrUbACrRh3MWrZfvN+2/23nrHT7HbPIYZ1cNXbz4tlank3mpSIe957XPTXvRkQaIg2RhkhDpCHSENGf+IsfUvLjX1vZ2YZ6249Zmf56HR3fv7ch3NfxHxvMzdq41ag/z3Ecxzzv909V+PZp33bHPMI87t3HhVV6j9PVKpX/108cgUhDpCHSEGmINEQaIg2RPc9j45y/Wet21J55rDlHebML7LNImwquvd84xoDnYO645JjO2WHm5dS0zkr3WvvM8+5EpCHSEGmINEQaIg2R+In/mouVs8t6/fHxaRwLk39sv36brdvrjz9/O144rvv287cxW8H5wsZ52/KA1/av8+K9u9uv+7Mf8Nl/PY5Y939tLeO+Jbrvd4Z+x1mINEQaIg2RhkhDpCHiGM7cV+ne6mzT9sFc77V0U9jd2Dny63nesaDyfenzLhuc89eznTsfXz/O1nL5iM8Oyw2INEQaIg2RhkhDpCHiGD05O3c0Z3276AiOGlU6guMcs5UMrV84li3nYebJPMzsN9pZ/9XbLLP61ebKnBQ+Ne8ORBoiDZGGSEOkIdIQcYzqt84+ysZ2+3BtdmNWIKvPqyHc2cmVvM63Tz7NCmZt36yh549qCkvEcNTL2eKdneGjVbgJkYZIQ6Qh0hBpiDREHKNOIKdcYJ5yllzg784s573zVPIoi9amTdnD10uvtioZzqJZyohalmnNXp+LPjXvLkQaIg2RhkhDpCHSEHGMbudsk9LqVlWcq1h99mCl2WsRuo3yvh+rmHU02e97dIY1QuRttfPdm+U527wHkYZIQ6Qh0hBpiDREHKO9wo5Kd5S2xQqlXp21sZq4Xl+pS07jlfJX+TK7wEN3V+qGk6W0+SivHcyqNj47LDch0hBpiDREGiINkYaIY5wjulpaWara2fvtV9Yayam7qwXMOsLsclc7muNio3IeYdY872jn2qClR4j+0J4jPjssdyDSEGmINEQaIg2RhohjrLryttWcWyqL4XMfcNolVjT7mLQtp3FxeRdN250xKcRcjKlm79lh+QcQaYg0RBoiDZGGSEPEMSrpwFc223mzkhNWa8we5U2TzN6unEXOusDRQ72N8o4+WY5JTS3RA8GZ2PD0eXcg0hBpiDREGiINkYaIY/RJZSUiTDl6j+1qZdNcw07Zek/nTMlQT8ZaPBMi1C5nv0ctxpznom5t1jkNT827A5GGSEOkIdIQaYg0RByjxnFTQz67u5KjX3ZTTHlQLpuLqL0LWg8E+6Sy9lrMuaVXZBZHFvOs7tvyvmORhkhDpCHSEGmINEQaIo5RayR22ljaApvnXbzC7JJKim1t37p9gu2wtMSh5Hrtbb0O+nyiWC5kT827AZGGSEOkIdIQaYg0RBxjVRQscnR3xXS9wTLP8z5vDVqv6jfqARfvsWnpUi1epzh0j2hTxmeedw8iDZGGSEOkIdIQaYg4Rp8inpsmbkDWszZTnVusrMnHlxT1Sj0f3UbWHbYn07pA07PX8y7Sheds8y5EGiINkYZIQ6Qh0hBxjMt54s66N3JcV1qFy37nkpW3sZRK2rml09atz2slw/7Con2w6aH5uuR9xyINkYZIQ6Qh0hBpiDREHKO8nnvq5m3a4iftBagrmJlpdntYbR+XzZVu7HyDs882p/xvlT10tFDedyzSEGmINEQaIg2RhkhDpO9tjrK3tA3OU78wdzRNOFDzt7LfnL2fW7AM39FsMV8djpa6oeKLuuDao54sobsQaYg0RBoiDZGGSEPEMbqTsy3MFpwvO5VLxN7c0TwoDbmdSq62ml/7ELVKYIn5riGxHfTQD3hq3l2INEQaIg2RhkhDpCHiGO6tuaaeWyfXgrwe/lUEwhKbviQDlSqvDc1qRcYuGW+LLItziz/gOdu8A5GGSEOkIdIQaYg0RBo66tuP3+H17fjTX6/x/edvY4w/Px+DufnCxs/Xix+/V/u1/crPz5aL9/r28/N2x1+vo/f79/Hk7Y6fn+cA78/X6/Xty39e/PjXdtt8wOuP7S23T3D2dPsLnJ9gf3LodxyGSEOkIdIQaYg0RBoijtErkYeorn6YB5ipydfNFXPKrAPJpe3jkvt62lW3tq/OQEuBV12leZR1y/jssNyASEOkIdIQaYg0RBri/4N53qc5epvLKC0Qn4uV81Uvgb6CcpkPHlQen9eyHvn1lqgVYZ8oPjXvNkQaIg2RhkhDpCHSEHGMS5hd+X0t3ppd5N42KTtNoXMQ2m5lVHfXNmZtYW056ZflzXO/s2UP9VnyvmORhkhDpCHSEGmINEQaIo5hDphVntoLs4Tk89CzzcE66HVRKJz+KqtJJvvfln3Mtcj5yuZcAe0Avj4SfWreHYg0RBoiDZGGSEOkIeIY7Yp5nlR2mnkr61qr4Cy+KRWY1xuXdo6Ji+/akPr0FJsZtL6jWeO9iud7tAp3IdIQaYg0RBoiDZGGiGOcvmA1SGs5+hrW2ql5tX3SfptWID1CtsR3ptm7bMy8ZTdYeFCLAytP/enz7kCkIdIQaYg0RBoiDRHHOAPuvPqdR50tllvygFqXYF5hveHSvV97TH+tatrbMZa60Ksv9b5V88wC7enz7kKkIdIQaYg0RBoiDRHHONdXlqQ6271cJnsuWFgOH92Lem0eWZIYlspZ8UW1HdMyBVsaNZfrZ553DyINkYZIQ//0B/iveT7x/x4R/InHVmJefxx68aozuw58+7EVqtdrU5i/Xr8dxeuUih+C89erl1tOrfkmLv96VM7/bEL3TcC+MxdjXt82JfrruHh78u+7Yv23wY9/VSr7n6/tKaeoPfw7DkGkIdIQaYg0RBoiDRHHcIVCxSKYdGFZN+n0gx7blfNm69kvYgdqzaWXPP28syZ75/MqH3b9pE+W0F2INEQaIg2RhkhDpCHiGGZxsorlSqnnSUMtGi83zpLczUe+p8zSkbR9emkum4shtZl41iLpoV94zjZvQqQh0hBpiDREGiINkZ6TPtoNrFV0Zv9VorqLRL1Szz3SvFXnY9EbeCvYrWUVuWXQZ5c8Oyx3IdIQaYg0RBoiDZGGiGPUjqaHF1QyUIkTfGXTTjk33s8i3/dQfll2wyWqyNZm/GP0MqgblT1ahTsQaYg0RBoiDZGGSEPEMeqM0RTh3mCVaqEiZE3RN687XvhufysjznHJU1/C0o8yVgXyPEQtb+vLHPE527wJkYZIQ6Qh0hBpiDREHMOCFK7CuK44biW92IT1Sssyzzsu7k2YUUeY5t9ZOoceK7YnzPKBHn3evYg0RBoiDZGGSEOkIeIY5Y/pBl/t8NwN1pc3OzE3KlvWOHsPZVw2XMytrMxdPE3h/Cxm1WLnrPuPvO9YpCHSEGmINEQaIg2RhohjlKR88UOp+Vtl23WQwo5N58rI5U2Yvv17WUG5hDBczkDNkLr3aQ56SzTvOxZpiDREGiINkYZIQ6Qh4hinkNwXSkymYLVsyvBMkHf2flN2d5a2tW/8ctmJ8Yf2lop5Vp8PKKVeSxcev82bEGmINEQaIg2RhkhDxDHKTmxJtOsh3CpOqKlbu2JaMVzcoTtnb7RIzx3MllPTmhn2x+jW0sV8ed+xSEOkIdIQaYg0RBoiDRHHMLuVJeTAcxVsf9IlBJf9l6u6wbR4H10C9yeXTr01gEuQkb/R2hk+Ne8GRBoiDZGGSEOkIdIQcQybyXWgkAn3ykC6ZebbfUc714FCMyPIl2D26z560DcL2v6+thFaubR121WkZ67Ued+xSEOkIdIQaYg0RBoiDRHHaGOx3sI8rb7adqzihtpWc1bE1ufZkeh5nR+EeiGd6garq27z0iubc+Rnh61537FIQ6Qh0hBpiDREGiINEcdYdy+XA855NNmqBT9ydCl7S9Stp7vuv3yUi/QMnfXAvE5qX5ZlllefmncPIg2RhkhDpCHSEGmIOIYZr7TJyno+2VmwnafeIbEHa87eWS+raG74UuZsI2tFpj/Lou2r9z1ue2rePYg0RBoiDZGGSEOkIZJzFUbZW7ZIoPdQTrwfvCYi7M+rI1Fbthx96FmyvksmQxXSOVbsi5cHPGebNyDSEGmINEQaIg2RhkhDe57r/s/Xty3jdWMvMf3rHg07a8/2N1tQmVGulX/++vbzt7ME/nidIbH7A87I1yMa9tN4/TF+8fpjr5fbCz9e89U//vx85tduibL90c6dz8jvOAyRhkhDpCHSEGmINEQc49rOtcx82Ws5rjZteGUtVNheL1u6wICLiZjHxXpyUWsVagXU9QtPZuyNiDREGiINkYZIQ6Qh4hiW+LNkIyzzvDUy6LJzUnjebAkMjFaYT5+xddrXbmW9/en3PvO8mxBpiDREGiINkYZIQ+T7sDBfsD0Uyysv9YClnr+5lZlX59d27Syf6IuK/bJAsy6Derf4zPNuQqQh0hBpiDREGiINEccooxQPwivhnl3S0rzZzpk63aQLi30LNejrM8s+RDXz6U4kspPPurdC9J4dljsQaYg0RBoiDZGGSEPEMU5jscUFpfcxSyVuGeZ1hy9vmk69hXtdEdtMs/q3d/Nps1sx9V63eM/Z5k2INEQaIg2RhkhDpCHiGGVqufiMTdfnWlA56AxzW0a5nkrulFPmF89fWKL4Zg3tg8ueLVbKrLu+PFlCNyHSEGmINEQaIg2RhohjtF1miequ2XamSa/MoT75PCeA8wSyK51ZU3/0dkwZtJiYrzu+JWC23VyeXIVbEWmINEQaIg2RhkhDxDFqoeS98K3u0F2KeghX5mA+nbsELvyaubQWCrRftVqbLbaavcgyO8jq/fK+Y5GGSEOkIdIQaYg0RBoijlF20L60UnT7tb9w7G22gfTc25yGnWVZNpcyccdo3+o0i7F2Wmk5Q21rLqerT37ePYg0RBoiDZGGSEOkIeIYVdpcTDAXT+yU81ynbP/nt7/5/G0JzBtu4llBtLX6Ugecc8nTT1yPD2nnonnfsUhDpCHSEGmINEQaIg0Rx7DUnkVy1/rzrlFLaMJijzLelzwXH0023L36bV/lGtLeCQutX3jONu9BpCHSEGmINEQaIg0RxzDHsSVa6D35bnqF+RSvo/PeYmBtivd95i+4sdgU/XWgUBu0uGZvWQZ9+rw7EGmINEQaIg2RhkhDxDFOUV0P9WZvtZadLl69ROl6urrXerWLpPyjYxuWptAkfIsHpzWZ5eby1Lw7EGmINEQaIg2RhkhDxDE85a4OM60B7GlfdYFHUVr9yKpyeo1qIcIy8rvYjp3NXp93vn0MSxV65nk3INIQaYg0RBoiDZGGiGPYTuWSSG7p6GcX2DYqnpo3x4C9qrIx+0bWOmh3nG+++m0u7ivH32oZ9PxX3ncs0hBpiDREGiINkYZIQ8QxrM5UD7baak7hXl2y31jWYeY4tsQsmJB8lBK953nHJR9/Y9pitiyLzuE527wLkYZIQ6Qh0hBpiDREHKM2LluYPjdSyi7T0tHblfqcxE25nneLlgL0tTcul53PDupbBofbLfaUVkbUImnedyzSEGmINEQaIg2RhkhDxDEuIXWVsODWYS3X633MuapinaGvZ3r5pFLzLJK2XTvdh+V888XR2sUOT827A5GGSEOkIdIQaYg0RBzD1kPWRc02aOmFEq90Xf1mzELlJfhS5oeHyVq3WPF8drZ5aiSqH6z8BVuHyfuORRoiDZHG84n/94g0RBoijmH7Kn2i2b4pvbRySY9dDFqmyqDLXW2fgFu6VF7CgUvPa9fFBBOzUWyjsqfm3YBIQ6Qh0hBpiDREGiKOYU6Z+x/WQCFbwDT3zMUsurZUlnurbH20Pm+ppu760slFVVw7gO/JjL0dkYZIQ6Qh0hBpiDREHOMiQvc2bcM2M5ejTsswN3uymuy9B8KO+tUbxQ4UmvO85Zy1Nj17DJj3HYs0RBoiDZGGSEOkIdIQyXubwzZI2mJsbpB0iqtnHnioq+fnbU9qicPX9qI2B+r3jZn+BO7wsoQ/PDXvBkQaIg2RhkhDpCHSEHGMs1rxlqvg7tDVuvV1lhbU9W1O+zpXYXTGehfX3uq0fFgP27N0PV/8fPq8exBpiDREGiINkYZIQ8Qx6lizQ/SWSHM3SmmXTXOC7oA7X/d8cw2j3s0LaR+nrs2eLa0s+51Pn3cHIg2RhkhDpCHSEGmIxE/812uvM69v2x9+vD5v//nrNb7z12u/5vWtjaa//Oc1/v176w02fn6GH9vf9h/7r3sxrL+99idXdsOOSfPOO/Z7Xy9+/KsmitsL2xvtDziHepnfcRYiDZGGSEOkIdIQaYg4hmXgVWKreUKvTtDuEFZRrh1kvij15uHop2Um14O5q3VnKRm6vq1e1E+fdxciDZGGSEOkIdIQaYg4Rh9cloTgLfunYmD7h1mm7Cy7l23TyTmOW04+zbmllXpzaWUxPvMR4lPzbkOkIdIQaYg0RBoiDRHHsPbLrDHd67kdqN+S9Mo35Xxhxxs7eib3FlBUKQ42JHR1w6yDpVV45nk3IdIQaYg0RBoiDZGGiGOcjV1tSFrAXa2g1AanGWy2Tef0f/aTz3YN+zgferxb32ubK7Nytha+37xXNh993m2INEQaIg2RhkhDpCHiGDWs8xq1YaeS0wis81xnGXPVgh2JWqrQFx/Rzf7Ngxk6Hf1y6Ll8oCqLed+xSEOkIdIQaYg0RBoiDZHsw/J1Vaef8zfXDHSl62xZa87Ohu3XNSphuER9zUmf+y/dyVleUScN1Wd5at4diDREGiINkYZIQ6Qh4hhWdjphoctY0Zq9S/pQ+aaYsVg/atShp4nfO3l2o2eBZ+9XZ6UleT94vMduQqQh0hBpiDREGiINEceoDRL/0YsnbRtd4gTfZqnUvI5eKMXDKm/n4tdSA7yl43t/lDt+Pn3ePYg0RBoiDZGGSEOkIeIYZhtdHZ8VqgoZKlvNJQG2WjwrbR4yNCyxofYx+RtZX3t6nuq9Wvy0GvrUvHsQaYg0RBoiDZGGSEPEMSrTZy6KuKl0C+P8xyo4P2MRuix2pt4S0WAm1csEcB6driJ0SxUqvd/jMX0TIg2RhkhDpCHSEGmIOMY6cFu2VJb48laim+3YziKge0vc+9LRCyVRXxZEfcNlCXAwOYM1innfsUhDpCHSEGmINEQaIo28T8wydSvpwiUGtk8lL8uWbVRWZXG1ExtnVELr7lrK7hHpvTRqYr7VquUc/uV9xyINkYZIQ6Qh0hBpiDREHGOVCyxHiWXEaalCZbJSSoaa3S2xsm7pgqkRcA2CV9M+27xo0uviZ553FyINkYZIQ6Qh0hBpiDhGTeIuBc39UObsrk8bOxDWfcG2/9qOZm+ffPguZ8/pFmuzuQTTG6EuHXwyY29EpCHSEGmINEQaIg0Rx+g1yTMloStdnTuab0pN2Kx/W7JlO0jBDMiG94P9RpNW5W2/tfFZbb30culztnkDIg2RhkhDpCHSEGmIOMYpFS9rFSuBi7tYN3v7bVYl153PzhIqTzFahN6nnD3PO4Nje1mmJHymm3jmeTci0hBpiDREGiINkYaIY7Tc+y3c/LJEWQud5jjmfi2+fWKRCpzumTU47NmdtYw9zzuXamoZtId/T593EyINkYZIQ6Qh0hBpiDiG1bcSoa9t2tUjpQpfCwx8OmcahEW6cMTprd4sbTR9GQO2QqFj944WNO87FmmINEQaIg2RhkhDpCHiGLVG4u1cDev83NGzYNuPzPR5tuk5Ny6HLX5WaTsf0BqEiqm9jAvnpud8t6fm3YNIQ6Qh0hBpiDREGiLZb3PnmuLaGrvK9NnoLZXFHKyqn+13DvflrIu7oHmeQ9XGzm6wk8+n5t2ESEOkIdIQaYg0RBoijuGpsF3f2hKslzdrVcUygly7bn1ZSxK+XwZzHamwzOlsvFexDRYoVG/+nG3egUhDpCHSEGmINEQaInlv89K/tda8K45P9jxK/bjX2r5VWfe9MvDMtKWtVToztk9Su+PrKPVnnncTIg2RhkhDpCHSEGmIOEbHkrsjy7J2eVxiIei9X/IuPbeM19rR/Nr/quaxF1QsjMgaxdrgrHJ8nLPmfcciDZGGSEOkIdIQaYg0RGyfd9K7JFbV9hfKmWypUVNX3tYq56udcM7y5C6aZk19ekxbbINZUy8PeGreHYg0RBoiDZGGSEOkIYLPNoeZp9SyZb1ggnO3ly536B64mdXmeSp5Mee0HU13ll5jahfPMx8w5n3HIg2RhkhDpCHSEGmINEQco6V5poSzGV8tW5a8zuZ0Fx+WubRyHf59neYubqY5381FehWTt0bIdtDDU/PuQKQh0hBpiDREGiINEccYf1dnVu9oKzudEdT1svNcL/6d895RjeK1u2vVgtl52spmf4J6ct53LNIQaYg0RBoiDZGGSEPEMdw8pU03azB30EeTdT7Zuykb1goujppjjYatglplsR7Q2r4+STVd4MbjPXYTIg2RhkhDpCHSEGmIOEaHxFoYeWcZbH/pE02LQFjrVpU7N3Lpxc/hgbAmUV+9On1B1NTpntb39Hl3INIQaYg0RBoiDZGGiGNYXkJLCK4FrY4/TUXXWyqL2MGTgZYCed67MceAHrTeGUY1H/QM2iqzed+xSEP/9Af4r3k+8f8ekYZIQ6Qh4hjj3fTLqpUFmS8WLG0sdhnC2eJnqRZGr3uWk5ip09vssz9QVVPr+I7r8r5jkYZIQ6Qh0hBpiDREGiKO4aKD8lzpvLu5rTkDFzzm/CLDe2vipo0Kbt3ZcbGLEr0e4NG1Znpdcoa871ikIdIQaYg0RBoiDZGGiGOY+4pZjNUGyZJwbsXrTTvn9bKzEcYpZe/QBBffLX6b1fvVCanl8XU/mPcdizREGiINkYZIQ6Qh0hBxjNVYrO2grdxZl2V3rsHoGx0UdMbpefT5Er1QkQqLXXWPAW2O2Dmyj1bhLkQaIg2RhkhDpCHSEHGMs8R4/zYtNNeu7bjexXJ97thFbsne2zBbljrqXAZ4bT7dv9oSjNW8p8+7CZGGSEOkIdIQaYg0RBzj74ycy4dlNli1XdmVrg8fu1rN23zut2FSv65+U9neer/Zc9aj1injc7Z5FyINkYZIQ6Qh0hBpiDhGLaOYSWbFki+hCTXtWx1Z2nhlzYy1+AQqK69sWUyXUAYtbkPd4onZKD417zZEGiINkYZIQ6Qh0hBxjGF6gzrbtB9v1s8nFbFXDmGXDc6jLo4+n7QZ33yIS887XY/leZ2i/niP3YRIQ6Qh0hBpiDREGiKOUUsmplrYX+j4ctMqmBy9i5d7dfYdvhiDH53aJTU9bEfrjpC9nJo+WoXbEGmINEQaIg2RhkhDxDEuQa99lHi+WgEJbaZZsXaVBXv1KHNR3S/T3Vn6UJusHMekVUNtpWWur7jKL+87FmmINEQaIg2RhkhDpCHiGG0C7ekHZ6t11RZ4GauGzeZvrV1fQvma3g3d37IFeadHWan85rtZu3l0gXnfsUhDpCHSEGmINEQaIg0Rx2iBwfHr6p5ZuyStxfMTzWk79haM3tGwH36dmWmeI7rLcWobkL1vwjx7m3ch0hBpiDREGiINkYaIY/hIrc4nLQBocVApbKFzNdPscdw1Tm+jH2pCQDvWrI7v0kaarC/vOxZpiDREGiINkYZIQ6Qh4hhunFkjutLOuUyh91oWUzLrEXuetzZ7LM7SS6DQ35XA4XR2w7O3eRciDZGGSEOkIdIQaYg4xoElInQCrBcvy4I9brM+r7TrS4p6t4cHPqeb/WAL8jYurp0mgz9fffq8exBpiDREGiINkYZIQ8QxTA5XavL2ji7HMbfLbMFCpQWVDG/p6XoJZjFZ2elq6r7Tq8Gm2VrvFz817x5EGiINkYZIQ6Qh0hCxZ5u/XC9eQa/dtbklZy1qni5kU2BQZ5GdqcfZxE336j697D6vlH/zPXZ6nrcUw2eedwMiDZGGSEOkIdIQaYg4htt/VVzdTpt+lWHY3032rHi1l0pHEH3MR5XsYZnTudPKNY22lX/1SZ+adwciDZGGSEOkoX/6A/zXPJ/4BoatWFZ3d1UoLIVvlqdL6/Z2SOmO0R9L7N4pUT9LpR1/mrlLqeL7hWPe+Pxf8b9HpCHSEGmINEQaIg0Rx7jYW67LI1drTBvMWeD5xjyGXHR8tbRSyr/SvXe4wvJx1ij1JbLv6fNuQ6Qh0hBpiDREGiINEccwyhrTK04Xvl5kKfeV5VTy0quZPm+0q1nNB93MejG47hFi/9qhDk+fdwMiDZGGSEOkIdIQaYg4xjXkoE3Eetq3TPG6FLVN5/mE7hHbbfrDF166pHrhazVCyfCqCJsV6DPPuwuRhkhDpCHSEGmINEQcw1ykW/h9edVcnzvr3GMWPNd8w8vYp0VSvv919oPXfZUugT0zvD4g7zsWaYg0RBoiDZGGSEOkIeIY12bKxnarPu9YtlzSD8osug9CO3jIoxcoE88qaJdRXmsa+pzVHr9f8mjSb0KkIdIQaYg0RBoiDRHHWF2fF62568+7Ri13rOac3QpWpML3/aW2y7wkqy9qQJvxebhRV9Nnb/MeRBoiDZGGSEOkIdIQcYxr0sGyoLIIDGZoQu+rmFS8nDc7Z8/VCCd2mFkqCAstKq3geXmn9W0c+y9537FIQ6Qh0hBpiDREGiINET/P+776oaxemEuUa6nOO4xoSY/19vDLUhHL5MzC103s0DZmy2d5at5tiDREGiINkYZIQ6Qhovc2P7rmuUW0pdetKy3dg3mA+t6S2QbnL1fvdZErH2vT+3UK3/7RrFGcdfDp8+5ApCHSEGmINEQaIg2RxmuVhP+/z4+871ikIdIQaYg0RBoiDZGGSEOkIdIQaYg0RBoiDZGGSEOkoX/6A/zX/B/Rl2F4c75TEQAAAABJRU5ErkJggg==" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>30</strong></span>
+                <span>Payload: <strong>1658 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> Same as above but with slightly larger/clearer photo
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>BEGIN:VCARD
+VERSION:3.0
+FN:🔮 Glyph Drop
+ORG:Glyph
+NOTE:You found a Glyph drop! 🔮 This secret message was left for you in the subway. Download Glyph to leave your own.
+URL:https://apps.apple.com/app/glyph/id000000000
+PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0
+... (1652 total chars)</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="vcard-text-only">
+            <div class="card-header">
+                <span class="badge" style="background:#66d9ff">SUBWAY</span>
+                <h2>vCard Text Only (No Photo)</h2>
+            </div>
+            <p class="desc">No photo = more space for message text. Tests maximum text capacity.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,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" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>13</strong></span>
+                <span>Payload: <strong>384 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> Contact prompt, long message in Notes, no photo
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>BEGIN:VCARD
+VERSION:3.0
+FN:🔮 Glyph Drop
+ORG:Glyph
+NOTE:You found a Glyph drop! 🔮 This secret message was left for you in the subway. Download Glyph to leave your own. Reply with your own Glyph drop — scan QR codes to exchange secret messages\, art\, and audio. No internet needed. No accounts. No
+... (371 total chars)</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="plain-url">
+            <div class="card-header">
+                <span class="badge" style="background:#ff9933">FALLBACK</span>
+                <h2>Plain URL</h2>
+            </div>
+            <p class="desc">Just the App Store URL. iOS opens it in Safari (or App Store) when scanned.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyAQAAAADAX2ykAAADAUlEQVR4nO1cS46kMAy1E6RaglQH6KPAzUZ9MzhK3QCWLYE88icU1TOiQRr1JI3fIgrEC4tXjj9xCgnOYAinxAFcfh/hi/XPcPl9hOvJT2jo+MXQLCgDog4Aab3KU/9TCBeUjyQQpgGmG2EHkR9vtnm3sj5+lz5nEE5Jw0XlUY2zngG7+gOhHRcE4JliStadqf7HES4tHwnaBzM9VaCzdvyf+nyNcEBmi0vLT0ztBpH+eJe1/gcQLiZfyWh+tp6BhgZ0gKEBpOFt5gUWmL5Dn+Dy//T7gMVNjHbk/fkvgyES9f799xEykwfaYk4OtxarncV0t3B+y+N3XG2VZjVntelWZ5w98dAz085vefwSp76y+bLBMsmJWrBHMeLe9+cC+a0ApgZo6CThlYD5TsgBFbY9ATLxkgVjnvoHlz9QvwIG9Vy/kvqkVrKAZ7Ag0aNKcZh/z32E/ORrKVhFwq4mdsK2Xaf6ZCTEtw8EzZQy1P8UwkXjK5LQKjnh1aZB6RbHLKu56R9cfh+k+66GVk/75e0aJLB+psjOb3m/N9CESJIfzXBlk17zo54fNX72/KhQfmNi9bP9AmdPZthe3yjefvvNO6tqgJWzPP8tl1961iKtlvFSyYrJsD2+KpRfMkLN16ZImlI4baUr979l8jsmC7Ui5UtAxTDOGZ4fFVjfmIHeGy5TEffnTIjUp9IVGCLB4P11BfILaS/meUqN1Grb5HXTIbDnv0XySykD0q1ZUqMUbpF63ecsN/2Dyx/xv6Cmm04a1kNgWrs7nN9Sf291yoXM68pJg3TKziyx7t7SaZeh/qcQrnx/obb9eXt01ABIu7v3PxcdX5ElwZtODoFUNbw/52fcX5i4oZ2TpF+P2+qOF72JZI3veep/HOGi8RXYIfALolU6zDt7flQev9X2gTuxYLrP3HXFA/Ajcvd7nLEd7xnqH1z+wPeh9ZBBAiq5X0Ykl8wUC9K79+cU+ntbNHze3DWSXquBmdZ0SSaeHxXIL/r/MxTFV3D5XYT95R8n/xuKhmFV8rcYmQAAAABJRU5ErkJggg==" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>4</strong></span>
+                <span>Payload: <strong>44 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> Safari opens / App Store prompt
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>https://apps.apple.com/app/glyph/id000000000</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="wifi-creds">
+            <div class="card-header">
+                <span class="badge" style="background:#9966ff">NETWORK</span>
+                <h2>Wi-Fi Credentials</h2>
+            </div>
+            <p class="desc">Standard Wi-Fi QR. iOS should prompt 'Join Network GlyphDrop?'. Use this for the hotspot/captive portal scenario.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAACgUlEQVR4nO1bUYrjMAx9dgzzmUIP0KOkN5gjLXukuUFylB5gofkccNDyZDWT3fkJA6WCyB8lsvUh9Cz7SXKTYOeY8l5NIFRzOAuxXTAnG9e5IF3nlDCdFv4Aj6USAQMHRwZE7p3owHDvZDtHcdAliuPLbc2hCg6Lnr5Cxl7EwupS0SLvGs7ysV3KVpjPFZhLTcP9DOHX8w3IoYqfodVXKFCYLp9JxfCrQ7TEpKUI5iVRFExXxlZPYXZha6hmYtR4HzC/Sbqik8YOf92ZZenSKZzlwgPFokcHw2o6dRCehDJd6hp0zzMgVPN+Z6ER9XZH9crWQWJYYaxeyBMRDN7FziJaAAbFaJ1cMbIcjDCOL7c1H161MKwKT72SgK4a1WhAnemeJYWzvGyXwixLmGXxjlI62AmmdwYcj0OgEjwXtoZq3qRajQ6ytKHFQiKIKbF2GM7ydG+J8KJqBIOxtdagNmN8ua358Kqw4u2DajSCocxjW8sITuhiu7SwMtbHgi6/virvBl7Eliu0Bv35t3eirN74fcSWK7QeV5Yly1jF6G95rWXgcYO1qgajTK+sOAmdoJUbUMPtTWTUTFjFO7+Yg7EGFZ1+Tx2ThX0SIKH/88iEmXQNH1rGWFuS+dW25sOrYptSNVqhR1/99jhjDGdlV2+ewKLTRasabG3xcQa/5Hf0tzy+eYKlyMY3LLbizZMvtNDg0TxZ6xZrK6WpxEnoUHUmMWx9STsOGydk4x/ObD2kavl/YriVqoSeNxhXO0lObM2HVy3qAePt/WfC8KFcviIRyjTcEp9pMN7CWdlFvpVMmE9888mnNO82Y03l/nkGhGre76wU/whC7KzdI4cqdo+/tcW9QkDl/ogAAAAASUVORK5CYII=" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>3</strong></span>
+                <span>Payload: <strong>36 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> 'Join Wi-Fi' prompt in iOS. (Won't actually connect unless you have a hotspot named 'GlyphDrop')
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>WIFI:T:WPA;S:GlyphDrop;P:glyph2026;;</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="mecard">
+            <div class="card-header">
+                <span class="badge" style="background:#66d9ff">SUBWAY</span>
+                <h2>MECARD Format</h2>
+            </div>
+            <p class="desc">MECARD is an older format also recognized by many QR scanners. Tests if iOS handles it differently than vCard.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeoAAAHqAQAAAADjFjCXAAAFPUlEQVR4nO1dTY6cSgy2DVKWIM0B5ijdN4typNygOco7QCRYjgRyZJfrZyabl4KIpsteVHcBn5qmLP+XQYYdNNEeNIDDq4nqoUIOryaqhwo5/MRHt6DRHTaEaZTDCyKATMMgl9z1+qWHeHnvC7eHqGE4MM8dK8Ft7hhgWIEf0DHceJWzctEQrmB+DHKdfhXY49L/nRx+6qPDILmGVSbCcLOKuURRwsUpRtHnC1dNVA99LfiS9apOvzHelRPzsPT/7Nf/nqgC4/Bne3SDaU68y7cfo5h52IvC3VD1r0m4f/PrDm/m0fU6WvhkGYGne7fyNM4At/ltBVjeVoRBDL583SCfywG/Tg5v8tGB+QtC6k38j8Goc2+iWbahffDeJFegD2RYNuTp/QN5GjtgEWk8jRAMvjA97tfJ4W3Lus6YKYRFJJBipDEUJQmpDHlgl3XNsg0dBmeJ0vFDHNlp3JAfemz4kG8bIobwsRqCHeP3+aluvoaoCpXI4QfZdRAHtsidurRB1mmAWMMnYtyxyzra8dShbaYF1ZyBkYT/VMJpDCXnJr6ciPq3cw3bLNvQfq5jkVzCepmbYkYsUDgRQsUpIybkGbFG2YaOyMOC6VAVbpqMVaaSafQhYoLW+BRc1tGpC0dXhkPUoclVzen+oFdLJjRNrELQfVg4c+HoynCI0sz8hew0RNFnJl2w64oo8eAatl22oX3wXnJejLd566XSpGdYNPnfyTFgvP1Uu26TaPIMCBJIAZDpE9w8Ofy6so6L2IiV20WRZsZdDCSbXZctQV/3aqKG4RDtteyqCjfFVEWMl2RHIvm6g3Ndu2xDh0ROlIJd9yU2XISPNfufYsiDc127bEPHyTr4XLeejmWnNYI6z03AtdedToVDtNxibsLE3OdjYVdFTNWa1de5Xdcs29AxkRMw9WklACleHAReUL1KVmTHnoelUxeOrh85ASEtnsMbSxld8iZCQZ1EU6S0GG8/32S6SXSlX8++eXL4pWUdZxsuZh/KY8Gu+2T/gWtYOHPh6FXsuoceiCWbX2sD8qZYS9Cy23XNsg3tg4MxXBJkGhZJQ0yQceFXWJZscK5rl21oH7zXEWFQ861bYRpn1gEnTY0tYr4tKLslOtkt9qtAwLX/Ozn8ZA3LFhsp+0zE3ETWrNF9XaOv6wtXTdQwHMpq4ZiHLUrWSya0fihFzdPj0v+dHH6yXQdlujVkWtPOsKKqLth6qebOua6eqGE45OLNT2WcJYfF3WLmV1jkZHCua5dt6BD4jT/i3sPQXccicsVuiXDdf72Ivg2Z5dtz3HwtUTVSyeH1xJb4KvNgxW5F1bqlmk3bE9ll3S6ihuEQQ3CJ9dJ+7CIsV5R7poL2wbmuXbahffBeVKoM1tMEb/OoOVftbJLidf0qU2RpiqKXoMfr6NSFo4vDl29BwoW+xKo+peOEhu+sYZ22nVDjLvSj6NjtOjh94a6vYZWK0s5cVVzWreddFexRYjp14eh1erB3FhbWNp1CegzvhTjM8m99hpvfQ7QLDQ6vpl6EW+gsgeqvSvY11NeJcWft7EL/um6N5XZb0L/+5HcQNQyHXI8eaon/qK/LqYoyNwYeOaFTF45eiesg19flnk653CmcSDVPnhFrlG3oSHiX2g9bggLxnUPn9dCIXbom8o939WY9N/Ey634OnEONenijU3ytkzT9N/mnL6JY8rQHexHFM9x8NVE9VMjh+6LE+MdhecGJNDbRzv/W2EQLOodVosRv0iFbzvqTryZqGI7+ps4m150cXktUjVRyeDXt9GF/A5jBr1Qx2K82AAAAAElFTkSuQmCC" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>7</strong></span>
+                <span>Payload: <strong>137 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> May show contact prompt or plain text depending on iOS version
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>MECARD:N:Glyph Drop;NOTE:You found a secret Glyph! Download the app to leave your own.;URL:https://apps.apple.com/app/glyph/id000000000;;</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="vcard-mystery">
+            <div class="card-header">
+                <span class="badge" style="background:#66d9ff">SUBWAY</span>
+                <h2>vCard 'Mystery Drop'</h2>
+            </div>
+            <p class="desc">Different branding — 'Subway Mystery'. Tests how the contact name/vibe changes the iOS experience.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,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" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>27</strong></span>
+                <span>Payload: <strong>1425 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> Contact named 'Subway Mystery' with cryptic message
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>BEGIN:VCARD
+VERSION:3.0
+FN:🔮 Subway Mystery
+ORG:Glyph
+NOTE:Someone left this for you on the L train. 🚇 What does it mean?
+URL:https://apps.apple.com/app/glyph/id000000000
+PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdB
+... (1419 total chars)</pre>
+            </details>
+        </div>
+        
+        <div class="card" id="plain-text">
+            <div class="card-header">
+                <span class="badge" style="background:#ff9933">FALLBACK</span>
+                <h2>Plain Text Message</h2>
+            </div>
+            <p class="desc">Raw text in QR. iOS camera shows it as a notification banner. No contact prompt, just text.</p>
+            <div class="qr-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAHCAQAAAABUY/ToAAAEUElEQVR4nO1dW26jQBCsaSP5E0t7gD0KvlmUm+Gj7A3M50pYvZrungESRXjHdiKGrg8LMKUYu9TvmQRGGS5USAScuQZaveMrOHMNtHrHV3DmS7+hIRjOQwNcQgM7BRDC6Rb0mp4qGv9V7gDthAnm64EF6HgE9208ugLc42BHAn1DDiOj39ZzkjNfrCFA9BKFhNaExCzyEb20Y7zVJIXONXQXaCfMZn4ynOLLkQPaW4OuZwS0fwO6P0fG5fzzn5acuY1v6BbU5sQj7uOVy+8R4Y3H1/3NO0H33vgJzvymeOgqfsuOJufF6u48HvpP0I6YN0225Dy8/UnuTWIf4MCSkqGLb1zkztM2n7MMVMjDbpjgGVLAnN4YIdZHYurJXlmatq3nJGe+tD7UxEg6VoVOJh8VUqwKIVqf8BbFdTlleyUM/1XWQDthYgp2zPDotezL2kVab/D6UH1KoGImrAKU6kPqt2I2pvWhXvQSX7Kn8xpjlUqgYibE+iwinnwazZKKZjqKRstrjDUqgZ4UDyF2xI6s1yQeElxOAL9L5+y3xNnjFp+zEFRKxA7r1Bwr0Xw5S40RCMBhNNEMx+jpbk0AmhEYfo1be05y5nf4MlhDVaIgS/qhuX1O9bUt6zH1XaCdMDGLlaWvIbC+vSDl++LBREPet69RCfR43x5WFbLOfDY81xxnz4yW1xjrUwI9bIfY5oLmTbNZqi+Zf07dfPajQiXQ4/UhJOuTDU/udUBmijQ80mqj1xjrUwI9wmxTdVqsT07mtdMq0BL1EIIFSp7b16mEx3wZcug8DcTq6TWbpWSvvOdapRLoKf2yfmpzLLJ8SIPMfFk69b59ZUqgRzXUTVNmKTlLLdjDYi5Ne7Oel9WnBCpmwhSRWqt6cZ7g88KXpeja7VBtSqCnxEPdFPHkOY9ukaaZfLw+VKESqJiJmUAskk6rhNSrcZ4fSrm926EqlUDFTExlw6mouMjQRhuItdg71a49pq5MCfQgM8RaEPexAmRB9LQO6KCrhHTVtA7J+kx+tUooAufCtEXSKYWfDy7yPB4ye7Wt5yRnvr5fNlpbTDCbAmlTwyOLy33ZnaD9MFtmftedPW5BzVKcWQxnCbGHY8zV4lzaEGzZ649+2kJQKRHOXAWLe9Kuqi7ksH0/PrZge7FSeUcH92WroJ0wsWhpfJ5GQw6x87JXz+2rVAI9bZ0rq1laDjN2afn9VJB0O1SbEug5+6BB1tanFD4inKPzkiUdejoJaXPPWQgqJWKv+6At6o6YTYFMCxV9Jr9KJdCDa4OCrAPC8GuxVVU7NgEtwMAt3peMUcfbe05y5vd8Q+3fkPZnML8F21kmZv557avv2XAfaLf7McIGhj7OD80dmsfU9SmBnhQPcQqK0kQjdCYf0zYgedhoW89JznzpN3TL+wrJy5GZ4yaeyLuf5a2GrS3rM/l3gXbCDP6/Fqr6PcmZK6C1G76EM9dQHg/9A4YI7z3xtqbdAAAAAElFTkSuQmCC" alt="QR Code" class="qr-img" />
+            </div>
+            <div class="stats">
+                <span>QR Version: <strong>6</strong></span>
+                <span>Payload: <strong>103 bytes</strong></span>
+            </div>
+            <div class="expect">
+                <strong>Expected iOS behavior:</strong> iOS shows text in a notification-style banner. Tappable but not very actionable.
+            </div>
+            <details>
+                <summary>Raw payload</summary>
+                <pre>🔮 You found a Glyph! A secret message was left here. Download Glyph from the App Store to decode it.</pre>
+            </details>
+        </div>
+        
+    </div>
+    
+    <div style="text-align:center; padding: 40px 0; color:#444; font-size:0.8em;">
+        Glyph Subway QR Lab · 8 test cases · Hit Ctrl+C in terminal to stop server
+    </div>
+</body>
+</html>

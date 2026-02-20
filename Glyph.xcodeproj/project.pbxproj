@@ -1,0 +1,651 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A2000001 /* GlyphApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001 /* GlyphApp.swift */; };
+		A2000002 /* GlyphMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000002 /* GlyphMessage.swift */; };
+		A2000003 /* GlyphTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000003 /* GlyphTheme.swift */; };
+		A2000004 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000004 /* HomeView.swift */; };
+		A2000005 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000005 /* ComposeView.swift */; };
+		A2000006 /* QRDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000006 /* QRDisplayView.swift */; };
+		A2000007 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000007 /* ScannerView.swift */; };
+		A2000008 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000008 /* MessageView.swift */; };
+		A2000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2000009 /* Assets.xcassets */; };
+		A2000010 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B2000011 /* PrivacyInfo.xcprivacy */; };
+		A2000011 /* GlyphChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000012 /* GlyphChunk.swift */; };
+		A2000012 /* PhotoScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000013 /* PhotoScannerView.swift */; };
+		A2000013 /* ProgressiveImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000014 /* ProgressiveImageView.swift */; };
+		A2000014 /* chime.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B2000015 /* chime.m4a */; };
+		A2000015 /* mystery.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B2000016 /* mystery.m4a */; };
+		A2000016 /* ping.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B2000017 /* ping.m4a */; };
+		A2000017 /* GlyphWebBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000018 /* GlyphWebBundle.swift */; };
+		A2000018 /* WebTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000019 /* WebTemplates.swift */; };
+		A2000019 /* WebExperienceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000021 /* WebExperienceView.swift */; };
+		A2000020 /* WebComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000022 /* WebComposeView.swift */; };
+		A2000021 /* GlyphStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000023 /* GlyphStore.swift */; };
+		A2000022 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000024 /* LibraryView.swift */; };
+		A2000023 /* GlyphSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000025 /* GlyphSurvey.swift */; };
+		A2000024 /* SurveyTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000026 /* SurveyTemplates.swift */; };
+		A2000025 /* SurveyComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000027 /* SurveyComposeView.swift */; };
+		A2000026 /* SurveyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000028 /* SurveyListView.swift */; };
+		A2000027 /* ScanHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000029 /* ScanHistory.swift */; };
+		A2000028 /* GlyphCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000030 /* GlyphCrypto.swift */; };
+		A2000040 /* VoiceRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000040 /* VoiceRecorder.swift */; };
+		A2000041 /* LogoEasterEggView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000041 /* LogoEasterEggView.swift */; };
+		A2000042 /* SocialProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000042 /* SocialProfile.swift */; };
+		A2000043 /* FriendStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000043 /* FriendStore.swift */; };
+		A2000044 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000044 /* FriendsView.swift */; };
+		A2000045 /* ConversationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000045 /* ConversationStore.swift */; };
+		A2000046 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000046 /* ConversationView.swift */; };
+		A2000047 /* UnlockFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000047 /* UnlockFlowView.swift */; };
+		A2000048 /* GlyphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000048 /* GlyphTests.swift */; };
+		A2000050 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000051 /* OnboardingView.swift */; };
+		A2000052 /* AgentComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000052 /* AgentComposeView.swift */; };
+		A2000053 /* AgentLLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000053 /* AgentLLM.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B2000001 /* GlyphApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphApp.swift; sourceTree = "<group>"; };
+		B2000002 /* GlyphMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphMessage.swift; sourceTree = "<group>"; };
+		B2000003 /* GlyphTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphTheme.swift; sourceTree = "<group>"; };
+		B2000004 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B2000005 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
+		B2000006 /* QRDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRDisplayView.swift; sourceTree = "<group>"; };
+		B2000007 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		B2000008 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		B2000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B2000010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2000011 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B2000012 /* GlyphChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphChunk.swift; sourceTree = "<group>"; };
+		B2000013 /* PhotoScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoScannerView.swift; sourceTree = "<group>"; };
+		B2000014 /* ProgressiveImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressiveImageView.swift; sourceTree = "<group>"; };
+		B2000015 /* chime.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = chime.m4a; sourceTree = "<group>"; };
+		B2000016 /* mystery.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = mystery.m4a; sourceTree = "<group>"; };
+		B2000017 /* ping.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = ping.m4a; sourceTree = "<group>"; };
+		B2000020 /* Glyph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glyph.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2000018 /* GlyphWebBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphWebBundle.swift; sourceTree = "<group>"; };
+		B2000019 /* WebTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTemplates.swift; sourceTree = "<group>"; };
+		B2000021 /* WebExperienceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExperienceView.swift; sourceTree = "<group>"; };
+		B2000022 /* WebComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebComposeView.swift; sourceTree = "<group>"; };
+		B2000023 /* GlyphStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphStore.swift; sourceTree = "<group>"; };
+		B2000024 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		B2000025 /* GlyphSurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphSurvey.swift; sourceTree = "<group>"; };
+		B2000026 /* SurveyTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyTemplates.swift; sourceTree = "<group>"; };
+		B2000027 /* SurveyComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyComposeView.swift; sourceTree = "<group>"; };
+		B2000028 /* SurveyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyListView.swift; sourceTree = "<group>"; };
+		B2000029 /* ScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanHistory.swift; sourceTree = "<group>"; };
+		B2000030 /* GlyphCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCrypto.swift; sourceTree = "<group>"; };
+		B2000040 /* VoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorder.swift; sourceTree = "<group>"; };
+		B2000041 /* LogoEasterEggView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoEasterEggView.swift; sourceTree = "<group>"; };
+		B2000042 /* SocialProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialProfile.swift; sourceTree = "<group>"; };
+		B2000043 /* FriendStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendStore.swift; sourceTree = "<group>"; };
+		B2000044 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		B2000045 /* ConversationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStore.swift; sourceTree = "<group>"; };
+		B2000046 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+		B2000047 /* UnlockFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockFlowView.swift; sourceTree = "<group>"; };
+		B2000048 /* GlyphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphTests.swift; sourceTree = "<group>"; };
+		B2000050 /* GlyphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlyphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2000051 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B2000052 /* AgentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentComposeView.swift; sourceTree = "<group>"; };
+		B2000053 /* AgentLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLLM.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXContainerItemProxy section */
+		G2000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2000002 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2000001;
+			remoteInfo = Glyph;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C2000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D2000001 = {
+			isa = PBXGroup;
+			children = (
+				D2000002 /* Glyph */,
+				D2000007 /* GlyphTests */,
+				D2000010 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D2000002 /* Glyph */ = {
+			isa = PBXGroup;
+			children = (
+				B2000001 /* GlyphApp.swift */,
+				D2000003 /* Models */,
+				D2000004 /* Views */,
+				D2000005 /* Theme */,
+				D2000006 /* Audio */,
+				B2000009 /* Assets.xcassets */,
+				B2000010 /* Info.plist */,
+				B2000011 /* PrivacyInfo.xcprivacy */,
+			);
+			path = Glyph;
+			sourceTree = "<group>";
+		};
+		D2000003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B2000002 /* GlyphMessage.swift */,
+				B2000012 /* GlyphChunk.swift */,
+				B2000018 /* GlyphWebBundle.swift */,
+				B2000019 /* WebTemplates.swift */,
+				B2000023 /* GlyphStore.swift */,
+				B2000025 /* GlyphSurvey.swift */,
+				B2000026 /* SurveyTemplates.swift */,
+				B2000029 /* ScanHistory.swift */,
+				B2000030 /* GlyphCrypto.swift */,
+				B2000040 /* VoiceRecorder.swift */,
+				B2000042 /* SocialProfile.swift */,
+				B2000043 /* FriendStore.swift */,
+				B2000045 /* ConversationStore.swift */,
+				B2000053 /* AgentLLM.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D2000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B2000004 /* HomeView.swift */,
+				B2000005 /* ComposeView.swift */,
+				B2000006 /* QRDisplayView.swift */,
+				B2000007 /* ScannerView.swift */,
+				B2000013 /* PhotoScannerView.swift */,
+				B2000014 /* ProgressiveImageView.swift */,
+				B2000008 /* MessageView.swift */,
+				B2000021 /* WebExperienceView.swift */,
+				B2000022 /* WebComposeView.swift */,
+				B2000024 /* LibraryView.swift */,
+				B2000027 /* SurveyComposeView.swift */,
+				B2000028 /* SurveyListView.swift */,
+				B2000041 /* LogoEasterEggView.swift */,
+				B2000044 /* FriendsView.swift */,
+				B2000046 /* ConversationView.swift */,
+				B2000047 /* UnlockFlowView.swift */,
+				B2000051 /* OnboardingView.swift */,
+				B2000052 /* AgentComposeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D2000005 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B2000003 /* GlyphTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		D2000006 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				B2000015 /* chime.m4a */,
+				B2000016 /* mystery.m4a */,
+				B2000017 /* ping.m4a */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		D2000010 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B2000020 /* Glyph.app */,
+				B2000050 /* GlyphTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D2000007 /* GlyphTests */ = {
+			isa = PBXGroup;
+			children = (
+				B2000048 /* GlyphTests.swift */,
+			);
+			path = GlyphTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E2000001 /* Glyph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2000003 /* Build configuration list for PBXNativeTarget "Glyph" */;
+			buildPhases = (
+				C2000002 /* Sources */,
+				C2000001 /* Frameworks */,
+				C2000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Glyph;
+			productName = Glyph;
+			productReference = B2000020 /* Glyph.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E2000003 /* GlyphTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2000005 /* Build configuration list for PBXNativeTarget "GlyphTests" */;
+			buildPhases = (
+				C2000005 /* Sources */,
+				C2000004 /* Frameworks */,
+				C2000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				H2000001 /* PBXTargetDependency */,
+			);
+			name = GlyphTests;
+			productName = GlyphTests;
+			productReference = B2000050 /* GlyphTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2000002 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					E2000001 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					E2000003 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = E2000001;
+					};
+				};
+			};
+			buildConfigurationList = F2000001 /* Build configuration list for PBXProject "Glyph" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D2000001;
+			productRefGroup = D2000010 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E2000001 /* Glyph */,
+				E2000003 /* GlyphTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C2000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2000009 /* Assets.xcassets in Resources */,
+				A2000010 /* PrivacyInfo.xcprivacy in Resources */,
+				A2000014 /* chime.m4a in Resources */,
+				A2000015 /* mystery.m4a in Resources */,
+				A2000016 /* ping.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C2000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2000001 /* GlyphApp.swift in Sources */,
+				A2000002 /* GlyphMessage.swift in Sources */,
+				A2000011 /* GlyphChunk.swift in Sources */,
+				A2000003 /* GlyphTheme.swift in Sources */,
+				A2000004 /* HomeView.swift in Sources */,
+				A2000005 /* ComposeView.swift in Sources */,
+				A2000006 /* QRDisplayView.swift in Sources */,
+				A2000007 /* ScannerView.swift in Sources */,
+				A2000012 /* PhotoScannerView.swift in Sources */,
+				A2000013 /* ProgressiveImageView.swift in Sources */,
+				A2000008 /* MessageView.swift in Sources */,
+				A2000017 /* GlyphWebBundle.swift in Sources */,
+				A2000018 /* WebTemplates.swift in Sources */,
+				A2000019 /* WebExperienceView.swift in Sources */,
+				A2000020 /* WebComposeView.swift in Sources */,
+				A2000021 /* GlyphStore.swift in Sources */,
+				A2000022 /* LibraryView.swift in Sources */,
+				A2000023 /* GlyphSurvey.swift in Sources */,
+				A2000024 /* SurveyTemplates.swift in Sources */,
+				A2000025 /* SurveyComposeView.swift in Sources */,
+				A2000026 /* SurveyListView.swift in Sources */,
+				A2000027 /* ScanHistory.swift in Sources */,
+				A2000028 /* GlyphCrypto.swift in Sources */,
+				A2000040 /* VoiceRecorder.swift in Sources */,
+				A2000041 /* LogoEasterEggView.swift in Sources */,
+				A2000042 /* SocialProfile.swift in Sources */,
+				A2000043 /* FriendStore.swift in Sources */,
+				A2000044 /* FriendsView.swift in Sources */,
+				A2000045 /* ConversationStore.swift in Sources */,
+				A2000046 /* ConversationView.swift in Sources */,
+				A2000047 /* UnlockFlowView.swift in Sources */,
+				A2000050 /* OnboardingView.swift in Sources */,
+				A2000052 /* AgentComposeView.swift in Sources */,
+				A2000053 /* AgentLLM.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2000048 /* GlyphTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		H2000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2000001 /* Glyph */;
+			targetProxy = G2000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F2000010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = A6PA2G76WL;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F2000011 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = A6PA2G76WL;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F2000012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Glyph;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Glyph needs camera access to scan QR codes from other users.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glyph needs microphone access to record voice memos that are embedded in QR codes.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Glyph needs permission to save received images to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Glyph needs photo library access to scan QR codes from saved images and screenshots.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.glyphmsg.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F2000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Glyph;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Glyph needs camera access to scan QR codes from other users.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Glyph needs microphone access to record voice memos that are embedded in QR codes.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Glyph needs permission to save received images to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Glyph needs photo library access to scan QR codes from saved images and screenshots.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.glyphmsg.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F2000020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A6PA2G76WL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.glyphmsg.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glyph.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Glyph";
+			};
+			name = Debug;
+		};
+		F2000021 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A6PA2G76WL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.glyphmsg.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glyph.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Glyph";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F2000001 /* Build configuration list for PBXProject "Glyph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2000010 /* Debug */,
+				F2000011 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2000003 /* Build configuration list for PBXNativeTarget "Glyph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2000012 /* Debug */,
+				F2000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2000005 /* Build configuration list for PBXNativeTarget "GlyphTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2000020 /* Debug */,
+				F2000021 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2000002 /* Project object */;
+}
