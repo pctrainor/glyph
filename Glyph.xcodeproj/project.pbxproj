@@ -49,6 +49,16 @@
 		A2000053 /* AgentLLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000053 /* AgentLLM.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		G2000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2000002 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2000001;
+			remoteInfo = Glyph;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		B2000001 /* GlyphApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphApp.swift; sourceTree = "<group>"; };
 		B2000002 /* GlyphMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphMessage.swift; sourceTree = "<group>"; };
@@ -67,9 +77,9 @@
 		B2000015 /* chime.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = chime.m4a; sourceTree = "<group>"; };
 		B2000016 /* mystery.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = mystery.m4a; sourceTree = "<group>"; };
 		B2000017 /* ping.m4a */ = {isa = PBXFileReference; lastKnownFileType = audio.m4a; path = ping.m4a; sourceTree = "<group>"; };
-		B2000020 /* Glyph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glyph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2000018 /* GlyphWebBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphWebBundle.swift; sourceTree = "<group>"; };
 		B2000019 /* WebTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTemplates.swift; sourceTree = "<group>"; };
+		B2000020 /* Glyph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glyph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2000021 /* WebExperienceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExperienceView.swift; sourceTree = "<group>"; };
 		B2000022 /* WebComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebComposeView.swift; sourceTree = "<group>"; };
 		B2000023 /* GlyphStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphStore.swift; sourceTree = "<group>"; };
@@ -94,16 +104,6 @@
 		B2000052 /* AgentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentComposeView.swift; sourceTree = "<group>"; };
 		B2000053 /* AgentLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLLM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXContainerItemProxy section */
-		G2000001 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E2000002 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E2000001;
-			remoteInfo = Glyph;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C2000001 /* Frameworks */ = {
@@ -211,6 +211,14 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		D2000007 /* GlyphTests */ = {
+			isa = PBXGroup;
+			children = (
+				B2000048 /* GlyphTests.swift */,
+			);
+			path = GlyphTests;
+			sourceTree = "<group>";
+		};
 		D2000010 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,14 +226,6 @@
 				B2000050 /* GlyphTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D2000007 /* GlyphTests */ = {
-			isa = PBXGroup;
-			children = (
-				B2000048 /* GlyphTests.swift */,
-			);
-			path = GlyphTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

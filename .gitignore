@@ -60,3 +60,7 @@ Thumbs.db
 # Python lab files cache
 __pycache__/
 *.pyc
+
+# Web app
+web/node_modules/
+web/dist/
