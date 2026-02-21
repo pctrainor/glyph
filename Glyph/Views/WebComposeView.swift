@@ -213,6 +213,12 @@ struct WebComposeView: View {
             }
         case .translation:
             TranslationView()
+        case .battle:
+            BattleEditorView(
+                isGenerating: $isGenerating,
+                qrImages: $qrImages,
+                showQR: $showQR
+            )
         case .none:
             EmptyView()
         }
@@ -1352,6 +1358,228 @@ struct SurveyEditorRedirectView: View {
             .padding(.top, 8)
             Spacer()
         }
+    }
+}
+
+// MARK: - Battle Editor
+
+private struct BattleCharacter: Identifiable {
+    let id: Int
+    let name: String
+    let emoji: String
+    let color: String   // hex for HTML
+    let special: String // special move name
+}
+
+struct BattleEditorView: View {
+    @Binding var isGenerating: Bool
+    @Binding var qrImages: [UIImage]
+    @Binding var showQR: Bool
+
+    @State private var playerCount: Int = 2
+    @State private var playerNames: [String] = ["", "", "", ""]
+    @State private var sessionTitle: String = "Battle!"
+    @Environment(\.dismiss) private var dismiss
+
+    private let characters: [BattleCharacter] = [
+        BattleCharacter(id: 0, name: "Ember",   emoji: "🔥", color: "#ff4422", special: "Flame Burst"),
+        BattleCharacter(id: 1, name: "Frost",   emoji: "❄️", color: "#44aaff", special: "Ice Spike"),
+        BattleCharacter(id: 2, name: "Zap",     emoji: "⚡️", color: "#ffdd22", special: "Thunder Crash"),
+        BattleCharacter(id: 3, name: "Shade",   emoji: "🌑", color: "#9966ff", special: "Void Strike"),
+        BattleCharacter(id: 4, name: "Bloom",   emoji: "🌿", color: "#44cc88", special: "Nature Surge"),
+        BattleCharacter(id: 5, name: "Nova",    emoji: "⭐️", color: "#ffffff", special: "Star Blast"),
+        BattleCharacter(id: 6, name: "Tide",    emoji: "🌊", color: "#22ddcc", special: "Wave Crush"),
+        BattleCharacter(id: 7, name: "Cinder",  emoji: "💜", color: "#ff66cc", special: "Shadow Flare"),
+    ]
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 24) {
+
+                // Header
+                VStack(spacing: 8) {
+                    Image(systemName: "gamecontroller.fill")
+                        .font(.system(size: 48))
+                        .foregroundStyle(GlyphTheme.accentGradient)
+                    Text("Battle")
+                        .font(.system(size: 28, weight: .black, design: .rounded))
+                        .foregroundStyle(GlyphTheme.primaryText)
+                    Text("Host a match — players scan to join and fight.")
+                        .font(.system(size: 14, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.top, 24)
+
+                // Match Title
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("Match Title", systemImage: "trophy.fill")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                    TextField("Battle!", text: $sessionTitle)
+                        .font(.system(size: 16, design: .rounded))
+                        .foregroundStyle(GlyphTheme.primaryText)
+                        .padding(14)
+                        .background(GlyphTheme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+
+                // Player Count
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Player Slots", systemImage: "person.3.fill")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                    HStack(spacing: 10) {
+                        ForEach([1, 2, 3, 4], id: \.self) { count in
+                            Button {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                                    playerCount = count
+                                }
+                            } label: {
+                                VStack(spacing: 4) {
+                                    Text("\(count)")
+                                        .font(.system(size: 22, weight: .black, design: .rounded))
+                                    Text(count == 1 ? "Solo" : "\(count)P")
+                                        .font(.system(size: 10, weight: .semibold, design: .rounded))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(playerCount == count ? GlyphTheme.accentGradient : LinearGradient(colors: [GlyphTheme.surface], startPoint: .leading, endPoint: .trailing))
+                                .foregroundStyle(playerCount == count ? Color.black : GlyphTheme.secondaryText)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .stroke(playerCount == count ? Color.clear : GlyphTheme.accent.opacity(0.2), lineWidth: 1)
+                                )
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+
+                // Player Name Slots
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Player Names (optional)", systemImage: "person.fill")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                    ForEach(0..<playerCount, id: \.self) { i in
+                        HStack(spacing: 12) {
+                            Text("P\(i + 1)")
+                                .font(.system(size: 13, weight: .black, design: .rounded))
+                                .foregroundStyle(GlyphTheme.accent)
+                                .frame(width: 28)
+                            TextField("Player \(i + 1)", text: $playerNames[i])
+                                .font(.system(size: 15, design: .rounded))
+                                .foregroundStyle(GlyphTheme.primaryText)
+                                .padding(12)
+                                .background(GlyphTheme.surface)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                }
+
+                // Characters Preview
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Playable Characters", systemImage: "sparkles")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()),
+                                        GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+                        ForEach(characters) { c in
+                            VStack(spacing: 4) {
+                                Text(c.emoji)
+                                    .font(.system(size: 28))
+                                Text(c.name)
+                                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                                    .foregroundStyle(GlyphTheme.primaryText)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(Color(hex: c.color).opacity(0.15))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(hex: c.color).opacity(0.4), lineWidth: 1))
+                        }
+                    }
+                }
+
+                // Info box
+                HStack(spacing: 10) {
+                    Image(systemName: "info.circle.fill")
+                        .foregroundStyle(GlyphTheme.accent)
+                    Text("Host generates the match QR. Other players scan it to join on their own device. No internet needed.")
+                        .font(.system(size: 12, design: .rounded))
+                        .foregroundStyle(GlyphTheme.secondaryText)
+                }
+                .padding(14)
+                .background(GlyphTheme.accent.opacity(0.07))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                // Generate
+                Button {
+                    generate()
+                } label: {
+                    HStack(spacing: 10) {
+                        if isGenerating {
+                            ProgressView()
+                                .tint(.black)
+                        } else {
+                            Image(systemName: "qrcode")
+                            Text("Generate Match QR")
+                                .font(.system(size: 17, weight: .bold, design: .rounded))
+                        }
+                    }
+                    .foregroundStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: GlyphTheme.buttonHeight)
+                    .background(GlyphTheme.accentGradient)
+                    .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
+                }
+                .disabled(isGenerating || sessionTitle.trimmingCharacters(in: .whitespaces).isEmpty)
+                .padding(.bottom, 40)
+            }
+            .padding(.horizontal, 24)
+        }
+        .background(GlyphTheme.backgroundGradient.ignoresSafeArea())
+    }
+
+    private func generate() {
+        let resolvedNames = (0..<playerCount).map { i in
+            playerNames[i].trimmingCharacters(in: .whitespaces).isEmpty ? "Player \(i + 1)" : playerNames[i]
+        }
+        isGenerating = true
+        Task.detached(priority: .userInitiated) {
+            let html = WebTemplateGenerator.generateBattle(
+                title: sessionTitle,
+                playerCount: playerCount,
+                playerNames: resolvedNames
+            )
+            let bundle = GlyphWebBundle(
+                title: sessionTitle,
+                html: html,
+                templateType: "battle",
+                createdAt: Date()
+            )
+            let chunks = GlyphWebChunkSplitter.split(bundle: bundle)
+            let images = chunks.compactMap { GlyphQRRenderer.render(string: $0) }
+            await MainActor.run {
+                isGenerating = false
+                qrImages = images
+                showQR = true
+            }
+        }
+    }
+}
+
+// Helper extension for hex color
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let r = Double((int >> 16) & 0xFF) / 255
+        let g = Double((int >> 8) & 0xFF) / 255
+        let b = Double(int & 0xFF) / 255
+        self.init(red: r, green: g, blue: b)
     }
 }
 
