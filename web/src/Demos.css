@@ -417,3 +417,237 @@
     height: 280px;
   }
 }
+
+/* ─── AI Guess Button ──────────────────────────────────────── */
+
+.ai-guess-btn {
+  margin-top: 1rem !important;
+  background: linear-gradient(135deg, #9966ff, #ff4466) !important;
+  color: #fff !important;
+  font-size: 1.1rem !important;
+  padding: 0.85rem 2rem !important;
+  animation: guessPulse 2s ease-in-out infinite;
+}
+
+@keyframes guessPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(153, 102, 255, 0.3); }
+  50% { box-shadow: 0 0 24px rgba(153, 102, 255, 0.6); }
+}
+
+/* ─── AI Guess Overlay ─────────────────────────────────────── */
+
+.ai-guess-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ai-guess-modal {
+  background: #12121e;
+  border: 1px solid #222;
+  border-radius: 24px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ai-guess-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #333;
+  color: #888;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-guess-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.ai-guess-title {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.ai-guess-sub {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.ai-guess-viewfinder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #333;
+  margin-bottom: 1rem;
+  background: #000;
+}
+
+.ai-guess-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ai-guess-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  border: 2px dashed rgba(102, 217, 255, 0.4);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.ai-guess-capture {
+  padding: 0.85rem 2.5rem;
+  background: linear-gradient(135deg, #66d9ff, #9966ff);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.ai-guess-capture:active {
+  transform: scale(0.97);
+}
+
+.ai-guess-thinking {
+  padding: 2rem 0;
+}
+
+.ai-guess-thinking h2 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+}
+
+.ai-guess-thinking p {
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.ai-guess-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ai-guess-captured {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  border: 2px solid #333;
+}
+
+.ai-guess-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ai-guess-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.ai-guess-word {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #66d9ff, #9966ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: capitalize;
+}
+
+.ai-guess-hint {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.ai-guess-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.ai-guess-retry {
+  padding: 0.75rem 1.5rem;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  color: #66d9ff;
+  font-weight: 600;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ai-guess-done {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #66d9ff, #9966ff);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ai-guess-error {
+  color: #ff4466;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: rgba(255, 68, 102, 0.08);
+  border: 1px solid rgba(255, 68, 102, 0.2);
+  border-radius: 12px;
+}
+
+/* spinner reuse from DrawGame */
+.ai-guess-thinking .dg-thinking-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #222;
+  border-top-color: #66d9ff;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

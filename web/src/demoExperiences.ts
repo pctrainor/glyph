@@ -223,62 +223,148 @@ go(start);
 export const ART_DEMO = {
   title: 'Glyph Particles',
   templateType: 'art',
+  html: '',  // kept for reference, no longer used in ALL_DEMOS
+}
+
+// ─── Glyph Draw Demo ─────────────────────────────────────────────────
+
+export const DRAW_DEMO = {
+  title: 'Glyph Draw',
+  templateType: 'game',
   html: `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Glyph Particles</title>
+<title>Glyph Draw</title>
 <style>
-*{margin:0;padding:0}
-body{background:#0a0a14;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
-canvas{display:block;width:100vw;height:100vh}
-.ui{position:fixed;top:0;left:0;right:0;padding:16px 20px;display:flex;justify-content:space-between;
-align-items:center;z-index:10;background:linear-gradient(#0a0a14cc,transparent)}
-.ui h1{font-size:1em;color:#fff;font-family:-apple-system,system-ui,sans-serif;font-weight:700}
-.ui p{color:#66d9ff88;font-size:.7em;font-family:-apple-system,system-ui,sans-serif}
-.hint{position:fixed;bottom:40px;left:0;right:0;text-align:center;color:#ffffff44;
-font-size:.85em;font-family:-apple-system,system-ui,sans-serif;pointer-events:none;
-transition:opacity 1s}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a14;color:#e0e0e0;font-family:-apple-system,system-ui,sans-serif;
+min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+padding:16px;-webkit-user-select:none;user-select:none;overflow-x:hidden}
+.hdr{text-align:center;margin-bottom:8px}
+.hdr h1{font-size:1.5em;background:linear-gradient(135deg,#66d9ff,#9966ff);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr p{color:#888;font-size:.75em;margin-top:2px}
+.word{text-align:center;font-size:2em;font-weight:800;color:#66d9ff;
+text-transform:uppercase;letter-spacing:2px;margin:6px 0;
+text-shadow:0 0 20px #66d9ff44}
+.timer{text-align:center;font-size:1.1em;color:#9966ff;font-weight:700;margin-bottom:6px}
+.timer.urgent{color:#ff4466;animation:pulse .5s infinite alternate}
+@keyframes pulse{from{opacity:1}to{opacity:.5}}
+.cw{position:relative;width:100%;max-width:340px;aspect-ratio:1}
+canvas{width:100%;height:100%;border-radius:16px;border:2px solid #222;
+background:#12121e;display:block;touch-action:none}
+.tb{display:flex;gap:5px;align-items:center;justify-content:center;margin:8px 0;flex-wrap:wrap}
+.cb{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.cb.act{border-color:#fff;transform:scale(1.15)}
+.bb{width:32px;height:32px;border-radius:8px;background:#1a1a2e;border:1px solid #333;
+display:flex;align-items:center;justify-content:center;cursor:pointer;color:#888;font-size:1em}
+.bb.act{border-color:#66d9ff;color:#66d9ff}
+.ab{padding:6px 10px;border-radius:8px;background:#1a1a2e;border:1px solid #333;
+cursor:pointer;color:#888;font-size:.95em}
+.done{margin:10px 0;padding:14px 48px;background:linear-gradient(135deg,#66d9ff,#9966ff);
+color:#000;font-weight:700;border:none;border-radius:30px;font-size:1.05em;cursor:pointer}
+.done:active{transform:scale(.97)}
+.show-phase{display:flex;flex-direction:column;align-items:center;text-align:center;
+animation:fadeUp .4s ease;width:100%}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.show-phase h2{font-size:1.4em;color:#fff;margin-bottom:4px}
+.show-phase p{color:#888;font-size:.85em;margin-bottom:16px}
+.drawing-display{width:90%;max-width:320px;aspect-ratio:1;border-radius:16px;
+border:3px solid #66d9ff;background:#12121e;overflow:hidden;
+box-shadow:0 0 40px #66d9ff22}
+.drawing-display img{width:100%;height:100%;object-fit:contain}
+.secret{margin-top:12px;padding:10px 20px;background:#1a1a2e;border:1px solid #333;
+border-radius:12px;font-size:.8em;color:#666}
+.secret span{color:#9966ff;font-weight:700}
+.retry{margin-top:16px;padding:12px 32px;background:#1a1a2e;border:1px solid #333;
+color:#66d9ff;font-weight:600;border-radius:30px;font-size:.9em;cursor:pointer}
+.retry:active{transform:scale(.97)}
+.foot{color:#333;font-size:.65em;margin-top:auto;padding-top:12px;text-align:center}
 </style>
 </head>
 <body>
-<div class="ui"><div><h1>Glyph Particles</h1><p>Glyph Art \u00b7 Touch to create</p></div></div>
-<canvas id="c"></canvas>
-<div class="hint" id="hint">Touch anywhere to begin</div>
+<div class="hdr"><h1>Glyph Draw</h1><p>Draw it \u00b7 Show your screen \u00b7 AI guesses</p></div>
+<div id="stage"></div>
+<div class="foot">Glyph \u00b7 Delivered via QR</div>
 <script>
-const c=document.getElementById('c'),x=c.getContext('2d');
-let W,H,pts=[],touched=false;
-function resize(){W=c.width=innerWidth*2;H=c.height=innerHeight*2;
-c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
-x.scale(2,2);}
-resize();addEventListener('resize',resize);
-const colors=['#66d9ff','#9966ff','#ff66d9','#66ffaa','#ffaa66'];
-function addPt(px,py){
-if(!touched){touched=true;document.getElementById('hint').style.opacity=0;}
-for(let i=0;i<3;i++){
-pts.push({x:px,y:py,vx:(Math.random()-.5)*4,vy:(Math.random()-.5)*4,
-r:Math.random()*3+1,life:1,color:colors[Math.floor(Math.random()*colors.length)],
-decay:Math.random()*.015+.005});}}
-function draw(){
-x.fillStyle='rgba(10,10,20,0.08)';x.fillRect(0,0,W/2,H/2);
-for(let i=pts.length-1;i>=0;i--){
-let p=pts[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.vy*=.99;p.life-=p.decay;
-if(p.life<=0){pts.splice(i,1);continue;}
-x.globalAlpha=p.life;x.fillStyle=p.color;
-x.beginPath();x.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);x.fill();
-x.globalAlpha=p.life*.3;x.beginPath();x.arc(p.x,p.y,p.r*p.life*3,0,Math.PI*2);x.fill();}
-x.globalAlpha=1;
-if(Math.random()<.1){
-pts.push({x:Math.random()*W/2,y:Math.random()*H/2,vx:0,vy:-.2,
-r:.5,life:.6,color:colors[Math.floor(Math.random()*colors.length)],decay:.003});}
-requestAnimationFrame(draw);}
-function pos(e){let t=e.touches?e.touches[0]:e;return{x:t.clientX,y:t.clientY};}
-c.addEventListener('touchmove',e=>{e.preventDefault();let p=pos(e);addPt(p.x,p.y);},{passive:false});
-c.addEventListener('touchstart',e=>{e.preventDefault();let p=pos(e);addPt(p.x,p.y);},{passive:false});
-c.addEventListener('mousemove',e=>{if(e.buttons)addPt(e.clientX,e.clientY);});
-c.addEventListener('mousedown',e=>addPt(e.clientX,e.clientY));
-draw();
+const W=['sun','cat','house','tree','fish','star','heart','moon','boat','key','car','hat','eye','book','cup','bell','bird','flag','shoe','cake','dog','flower','cloud','rain','fire','pizza','apple','snake','robot','crown'];
+const C=['#66d9ff','#9966ff','#ff4466','#44dd88','#ffaa33','#ffffff'];
+const B=[3,6,12];
+let word,strokes=[],cur=null,drawing=false,cc,cx,col=C[0],bsz=B[1],timer=45,tid;
+
+function init(){
+word=W[Math.floor(Math.random()*W.length)];
+strokes=[];cur=null;timer=45;
+let s=document.getElementById('stage');
+let h='<div class="word" id="wd">Draw: '+word+'</div>';
+h+='<div class="timer" id="tm">45s</div>';
+h+='<div class="cw"><canvas id="cv" width="720" height="720"></canvas></div>';
+h+='<div class="tb" id="tb">';
+C.forEach((c,i)=>{h+='<div class="cb'+(i===0?' act':'')+'" style="background:'+c+'" onclick="pc('+i+',this)"></div>';});
+h+='<span style="color:#333">|</span>';
+B.forEach((b,i)=>{h+='<div class="bb'+(i===1?' act':'')+'" onclick="pb('+i+',this)"><span style="width:'+(b+2)+'px;height:'+(b+2)+'px;border-radius:50%;background:currentColor;display:block"></span></div>';});
+h+='<span style="color:#333">|</span>';
+h+='<div class="ab" onclick="undo()">\u21a9</div>';
+h+='<div class="ab" onclick="clr()">\u2715</div>';
+h+='</div>';
+h+='<button class="done" onclick="fin()">Done Drawing</button>';
+s.innerHTML=h;
+cc=document.getElementById('cv');cx=cc.getContext('2d');
+cc.addEventListener('touchstart',ts,{passive:false});
+cc.addEventListener('touchmove',tm,{passive:false});
+cc.addEventListener('touchend',te);
+cc.addEventListener('mousedown',ms);
+cc.addEventListener('mousemove',mm);
+cc.addEventListener('mouseup',me);
+startTimer();}
+
+function startTimer(){
+tid=setInterval(()=>{
+timer--;
+let el=document.getElementById('tm');
+if(el){el.textContent=timer+'s';if(timer<=5)el.classList.add('urgent');}
+if(timer<=0){clearInterval(tid);fin();}
+},1000);}
+
+function gp(e){let r=cc.getBoundingClientRect();let sx=720/r.width,sy=720/r.height;
+if(e.touches){let t=e.touches[0];return{x:(t.clientX-r.left)*sx,y:(t.clientY-r.top)*sy};}
+return{x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy};}
+
+function ts(e){e.preventDefault();drawing=true;let p=gp(e);cur={pts:[p],c:col,w:bsz};}
+function tm(e){e.preventDefault();if(!drawing||!cur)return;cur.pts.push(gp(e));redraw();}
+function te(){if(cur)strokes.push(cur);cur=null;drawing=false;redraw();}
+function ms(e){drawing=true;let p=gp(e);cur={pts:[p],c:col,w:bsz};}
+function mm(e){if(!drawing||!cur)return;cur.pts.push(gp(e));redraw();}
+function me(){if(cur)strokes.push(cur);cur=null;drawing=false;redraw();}
+
+function redraw(){
+cx.clearRect(0,0,720,720);cx.lineCap='round';cx.lineJoin='round';
+let all=cur?[...strokes,cur]:strokes;
+all.forEach(s=>{if(s.pts.length<2)return;cx.strokeStyle=s.c;cx.lineWidth=s.w;
+cx.beginPath();cx.moveTo(s.pts[0].x,s.pts[0].y);
+for(let i=1;i<s.pts.length;i++)cx.lineTo(s.pts[i].x,s.pts[i].y);cx.stroke();});}
+
+function pc(i,el){col=C[i];document.querySelectorAll('.cb').forEach(e=>e.classList.remove('act'));el.classList.add('act');}
+function pb(i,el){bsz=B[i];document.querySelectorAll('.bb').forEach(e=>e.classList.remove('act'));el.classList.add('act');}
+function undo(){strokes.pop();redraw();}
+function clr(){strokes=[];redraw();}
+
+function fin(){
+clearInterval(tid);
+let dataUrl=cc.toDataURL('image/png');
+let s=document.getElementById('stage');
+let h='<div class="show-phase">';
+h+='<h2>\ud83c\udfa8 Hold this up!</h2>';
+h+='<p>Show your drawing to the website camera.<br>The AI will try to guess it!</p>';
+h+='<div class="drawing-display"><img src="'+dataUrl+'" alt="Your drawing"/></div>';
+h+='<div class="secret">The word was: <span>'+word+'</span></div>';
+h+='<button class="retry" onclick="init()">\ud83c\udfaf Draw Again</button>';
+h+='</div>';
+s.innerHTML=h;}
+
+init();
 </script>
 </body>
 </html>`,
@@ -664,12 +750,12 @@ export const ALL_DEMOS: DemoExperience[] = [
     estimatedFrames: '~55 frames',
   },
   {
-    id: 'art',
-    title: ART_DEMO.title,
-    icon: 'VIS',
-    description: 'Interactive particle art canvas. Touch to create flowing trails in Glyph colors.',
-    templateType: 'art',
-    html: ART_DEMO.html,
-    estimatedFrames: '~30 frames',
+    id: 'draw',
+    title: DRAW_DEMO.title,
+    icon: 'DRW',
+    description: 'Draw a picture on your phone, then hold it up. The AI on the website will try to guess what you drew!',
+    templateType: 'game',
+    html: DRAW_DEMO.html,
+    estimatedFrames: '~40 frames',
   },
 ]

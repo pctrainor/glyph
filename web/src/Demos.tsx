@@ -4,6 +4,170 @@ import { encodeWebBundle, createWebBundle } from './glyphWebCrypto'
 import { ALL_DEMOS, type DemoExperience } from './demoExperiences'
 import './Demos.css'
 
+// ─── AI Guess Camera ─────────────────────────────────────────────────
+
+function AIGuessCamera({ onClose }: { onClose: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const [phase, setPhase] = useState<'camera' | 'thinking' | 'result'>('camera')
+  const [aiGuess, setAiGuess] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [capturedImage, setCapturedImage] = useState<string | null>(null)
+
+  // Start camera
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+        })
+        if (cancelled) {
+          stream.getTracks().forEach((t) => t.stop())
+          return
+        }
+        streamRef.current = stream
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+          videoRef.current.play()
+        }
+      } catch (err) {
+        setError('Could not access camera. Please allow camera permissions.')
+      }
+    })()
+    return () => {
+      cancelled = true
+      streamRef.current?.getTracks().forEach((t) => t.stop())
+    }
+  }, [])
+
+  const capture = useCallback(async () => {
+    const video = videoRef.current
+    const canvas = canvasRef.current
+    if (!video || !canvas) return
+
+    // Capture frame
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    const ctx = canvas.getContext('2d')!
+    ctx.drawImage(video, 0, 0)
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.8)
+    setCapturedImage(dataUrl)
+
+    // Stop camera
+    streamRef.current?.getTracks().forEach((t) => t.stop())
+
+    // Send to AI
+    setPhase('thinking')
+    try {
+      const response = await fetch('/api/vision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageDataUrl: dataUrl }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`)
+      }
+
+      const data = await response.json()
+      setAiGuess(data.guess || '(no response)')
+      setPhase('result')
+    } catch (err) {
+      console.error('AI Vision error:', err)
+      setError('Failed to get AI guess. Please try again.')
+      setPhase('result')
+    }
+  }, [])
+
+  const retry = useCallback(async () => {
+    setCapturedImage(null)
+    setAiGuess('')
+    setError(null)
+    setPhase('camera')
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+      })
+      streamRef.current = stream
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+        videoRef.current.play()
+      }
+    } catch {
+      setError('Could not access camera.')
+    }
+  }, [])
+
+  return (
+    <div className="ai-guess-overlay">
+      <div className="ai-guess-modal">
+        <button className="ai-guess-close" onClick={onClose}>✕</button>
+
+        {phase === 'camera' && (
+          <>
+            <h2 className="ai-guess-title">🤖 AI Guess</h2>
+            <p className="ai-guess-sub">
+              Point your camera at the drawing on your phone, then capture!
+            </p>
+            {error ? (
+              <div className="ai-guess-error">{error}</div>
+            ) : (
+              <>
+                <div className="ai-guess-viewfinder">
+                  <video ref={videoRef} playsInline muted className="ai-guess-video" />
+                  <div className="ai-guess-crosshair" />
+                </div>
+                <button className="ai-guess-capture" onClick={capture}>
+                  📸 Capture & Guess
+                </button>
+              </>
+            )}
+          </>
+        )}
+
+        {phase === 'thinking' && (
+          <div className="ai-guess-thinking">
+            <div className="dg-thinking-spinner" />
+            <h2>AI is analyzing...</h2>
+            <p>GPT-4o Vision is studying the drawing</p>
+          </div>
+        )}
+
+        {phase === 'result' && (
+          <div className="ai-guess-result">
+            {capturedImage && (
+              <img src={capturedImage} alt="Captured" className="ai-guess-captured" />
+            )}
+            {error ? (
+              <div className="ai-guess-error">{error}</div>
+            ) : (
+              <>
+                <div className="ai-guess-answer">
+                  <span className="ai-guess-label">The AI guesses:</span>
+                  <span className="ai-guess-word">{aiGuess}</span>
+                </div>
+                <p className="ai-guess-hint">Did the AI get it right? Check the answer on your phone!</p>
+              </>
+            )}
+            <div className="ai-guess-actions">
+              <button className="ai-guess-retry" onClick={retry}>
+                📸 Try Again
+              </button>
+              <button className="ai-guess-done" onClick={onClose}>
+                Done
+              </button>
+            </div>
+          </div>
+        )}
+
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
+      </div>
+    </div>
+  )
+}
+
 // ─── Cycling QR Display ──────────────────────────────────────────────
 
 function CyclingQR({
@@ -76,7 +240,9 @@ function DemoCard({ demo }: { demo: DemoExperience }) {
   const [error, setError] = useState<string | null>(null)
   const [showQR, setShowQR] = useState(false)
   const [speed, setSpeed] = useState(1200)
+  const [showAIGuess, setShowAIGuess] = useState(false)
   const qrRef = useRef<HTMLDivElement>(null)
+  const isDrawDemo = demo.id === 'draw'
 
   const generate = useCallback(async () => {
     setIsGenerating(true)
@@ -157,10 +323,31 @@ function DemoCard({ demo }: { demo: DemoExperience }) {
             </div>
           </div>
           <p className="demo-scan-hint">
-            Point your <strong>Glyph</strong> app camera at this cycling QR to
-            receive the full experience
+            {isDrawDemo ? (
+              <>
+                Scan with <strong>Glyph</strong> to get the draw game on your phone.
+                Once you&apos;ve drawn, hold up your phone and click the button below!
+              </>
+            ) : (
+              <>
+                Point your <strong>Glyph</strong> app camera at this cycling QR to
+                receive the full experience
+              </>
+            )}
           </p>
+          {isDrawDemo && (
+            <button
+              className="demo-btn ai-guess-btn"
+              onClick={() => setShowAIGuess(true)}
+            >
+              🤖 AI Guess My Drawing
+            </button>
+          )}
         </div>
+      )}
+
+      {showAIGuess && (
+        <AIGuessCamera onClose={() => setShowAIGuess(false)} />
       )}
     </div>
   )
