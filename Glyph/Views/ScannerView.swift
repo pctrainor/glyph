@@ -26,6 +26,7 @@ struct ScannerView: View {
     @State private var pinInput = ""                  // PIN text field value
     @State private var windowExpiredReason: String?   // QR time window expired
     @State private var showLogoEasterEgg = false      // Glyph logo QR scanned
+    @State private var showInviteWelcome = false      // TestFlight invite QR scanned
     @State private var dragOffset: CGFloat = 0         // Swipe-down to dismiss
     @AppStorage("flashOnScanEnabled") private var flashOnScanEnabled = true
     
@@ -263,6 +264,13 @@ struct ScannerView: View {
                     return
                 }
                 
+                // TestFlight invite — Share Card QR scanned in-app
+                if ShareCardView.isInviteQR(cleaned) {
+                    scanner.stop()
+                    showInviteWelcome = true
+                    return
+                }
+                
                 // Try survey response (GLYR: or GLYRE:) — single static QR from respondent
                 if SurveyResponse.isSurveyResponse(cleaned) {
                     if let response = SurveyResponse.decode(from: cleaned) {
@@ -487,6 +495,12 @@ struct ScannerView: View {
             scanner.start()
         }) {
             LogoEasterEggView()
+        }
+        .fullScreenCover(isPresented: $showInviteWelcome, onDismiss: {
+            lastScannedPayload = ""
+            scanner.start()
+        }) {
+            InviteWelcomeView()
         }
         .onChange(of: assembler.assembledWebBundle) { _, newBundle in
             // Safety net: catches web bundle completion even when ProgressiveImageView is showing
@@ -714,7 +728,7 @@ struct CameraPreviewView: UIViewRepresentable {
 /// scanning of dense QR codes (like GLYC: chunks). AVCaptureMetadataOutput
 /// often fails to decode high-density QR codes; Vision is significantly
 /// more capable.
-class QRScannerModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+class QRScannerModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
     let session = AVCaptureSession()
     
     @MainActor @Published var permissionDenied = false

@@ -949,7 +949,7 @@ struct AgentHostView: View {
 // MARK: - Front Camera Scanner
 
 /// Vision-based QR scanner using the front-facing camera.
-class FrontCameraScanner: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+class FrontCameraScanner: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
     let session = AVCaptureSession()
     
     @MainActor @Published var permissionDenied = false

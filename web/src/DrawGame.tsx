@@ -573,7 +573,7 @@ export default function DrawGame() {
           <div className="dg-final-cta">
             <p>Play Glyph Draw with friends — no internet needed.</p>
             <a
-              href="https://testflight.apple.com/join/YOUR_LINK"
+              href="https://testflight.apple.com/join/pJ72EpPS"
               target="_blank"
               rel="noopener"
               className="dg-cta-link"

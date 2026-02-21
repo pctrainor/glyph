@@ -14,41 +14,45 @@ enum WebTemplate: String, CaseIterable, Identifiable {
     case adventure = "adventure"
     case survey = "survey"
     case agent = "agent"
+    case translation = "translation"
     
     var id: String { rawValue }
     
-    /// Templates shown in the Create Experience picker.
-    /// Excludes placeholders and redirects.
-    static let composable: [WebTemplate] = [.trivia, .article, .adventure, .survey, .agent]
+    /// Apps shown in the Apps picker.
+    /// Translation, Quiz, and Survey are the core social apps.
+    /// Agent is commented out pending future updates.
+    static let composable: [WebTemplate] = [.translation, .trivia, .survey /*, .agent */]
     
     var displayName: String {
         switch self {
-        case .trivia:    return "Trivia Quiz"
-        case .soundboard: return "Sound Collection"
-        case .article:   return "Article / Zine"
-        case .art:       return "Interactive Art"
-        case .adventure: return "Choose Your Path"
-        case .survey:    return "Survey"
-        case .agent:     return "Host an Agent"
+        case .trivia:       return "Quiz"
+        case .soundboard:   return "Sound Collection"
+        case .article:      return "Article / Zine"
+        case .art:          return "Interactive Art"
+        case .adventure:    return "Choose Your Path"
+        case .survey:       return "Survey"
+        case .agent:        return "Host an Agent"
+        case .translation:  return "Translate"
         }
     }
     
     var icon: String {
         switch self {
-        case .trivia:    return "brain.head.profile"
-        case .soundboard: return "waveform.circle.fill"
-        case .article:   return "doc.richtext"
-        case .art:       return "paintpalette.fill"
-        case .adventure: return "map.fill"
-        case .survey:    return "chart.bar.doc.horizontal"
-        case .agent:     return "person.crop.rectangle.stack"
+        case .trivia:       return "questionmark.circle"
+        case .soundboard:   return "waveform.circle.fill"
+        case .article:      return "doc.richtext"
+        case .art:          return "paintpalette.fill"
+        case .adventure:    return "map.fill"
+        case .survey:       return "chart.bar.doc.horizontal"
+        case .agent:        return "person.crop.rectangle.stack"
+        case .translation:  return "globe"
         }
     }
     
     var description: String {
         switch self {
         case .trivia:
-            return "Create a multiple-choice quiz. Add questions and answers — the receiver plays right in the app."
+            return "Build a quiz from scratch or pick a category — Movies, History, Science & more. Receivers play and you can track their scores."
         case .soundboard:
             return "Build a collection of sound clips. Tap to play — like a mini mixtape, all from a QR code."
         case .article:
@@ -61,18 +65,21 @@ enum WebTemplate: String, CaseIterable, Identifiable {
             return "Build a survey. Respondents answer and show a QR code response for you to scan back."
         case .agent:
             return "Summon a character — they'll craft creative, personalized QR messages in their own voice."
+        case .translation:
+            return "Real-time conversation in 46+ languages. Two people pick languages and chat face-to-face — completely offline."
         }
     }
     
     var estimatedFrames: String {
         switch self {
-        case .trivia:    return "~10-15 frames"
-        case .soundboard: return "~50-100 frames"
-        case .article:   return "~8-20 frames"
-        case .art:       return "~8-12 frames"
-        case .adventure: return "~12-20 frames"
-        case .survey:    return "~15-25 frames"
-        case .agent:     return "~3-15 frames"
+        case .trivia:       return "~10-15 frames"
+        case .soundboard:   return "~50-100 frames"
+        case .article:      return "~8-20 frames"
+        case .art:          return "~8-12 frames"
+        case .adventure:    return "~12-20 frames"
+        case .survey:       return "~15-25 frames"
+        case .agent:        return "~3-15 frames"
+        case .translation:  return "Native"
         }
     }
 }
@@ -89,7 +96,9 @@ enum WebTemplateGenerator {
         let correctIndex: Int     // 0-based index of correct answer
     }
     
-    /// Generates a self-contained trivia game HTML page.
+    /// Generates a self-contained quiz HTML page with response tracking.
+    /// At the end, shows score + generates a QR code the quiz-taker can
+    /// display back so the host can scan and record results.
     static func generateTrivia(
         title: String,
         questions: [TriviaQuestion],
@@ -143,19 +152,37 @@ enum WebTemplateGenerator {
         border:none;border-radius:30px;font-size:1em;cursor:pointer}
         .btn:active{transform:scale(.97)}
         .foot{color:#333;font-size:.7em;margin-top:auto;padding-top:24px;text-align:center}
+        .response-section{margin-top:24px;text-align:center}
+        .response-label{color:#888;font-size:.8em;margin-bottom:8px}
+        .response-qr{background:#fff;border-radius:12px;padding:12px;display:inline-block;margin:8px auto}
+        .response-qr canvas{display:block}
+        .response-hint{color:#66d9ff;font-size:.75em;margin-top:8px}
+        .review{margin-top:16px;text-align:left;width:100%;max-width:360px}
+        .review-item{background:#12121e;border:1px solid #222;border-radius:12px;padding:14px;margin-bottom:8px}
+        .review-q{color:#fff;font-weight:600;font-size:.95em;margin-bottom:6px}
+        .review-a{font-size:.85em;padding:4px 0}
+        .review-a.correct-pick{color:#66d9ff}
+        .review-a.wrong-pick{color:#ff3333;text-decoration:line-through}
+        .review-a.correct-ans{color:#66d9ff;font-weight:600}
+        .review-a.neutral{color:#666}
+        .toggle-review{color:#9966ff;font-size:.9em;cursor:pointer;margin-top:12px;
+        background:none;border:none;font-family:inherit}
         </style>
         </head>
         <body>
         <div class="hdr"><h1>\(escapeHTML(title))</h1><p>Delivered via Glyph · No internet used</p></div>
         <div class="prog" id="prog"></div>
         <div id="stage"></div>
-        <div class="foot">Glyph · Offline Experiences</div>
+        <div class="foot">Glyph · Quiz</div>
         <script>
         const Q=[\(questionsJSON)];
+        const TITLE="\(escapeJS(title))";
         let cur=0,sc=0,ans=false;
+        let picks=[];
         function init(){
         let p=document.getElementById('prog');
         p.innerHTML=Q.map((_,i)=>'<div class="dot" id="d'+i+'"></div>').join('');
+        picks=new Array(Q.length).fill(-1);
         show();}
         function show(){
         if(cur>=Q.length){finish();return;}
@@ -170,6 +197,7 @@ enum WebTemplateGenerator {
         document.getElementById('stage').innerHTML=h;}
         function pick(i,el){
         if(ans)return;ans=true;
+        picks[cur]=i;
         let q=Q[cur];
         if(i===q.c){sc++;el.classList.add('correct');}
         else{el.classList.add('wrong');document.getElementById('o'+q.c).classList.add('correct');}
@@ -177,12 +205,71 @@ enum WebTemplateGenerator {
         setTimeout(()=>{cur++;show();},1200);}
         function finish(){
         let pct=Math.round(sc/Q.length*100);
-        let m=pct===100?'Perfect score!':pct>=70?'Nice work!':pct>=40?'Not bad!':'Keep trying!';
+        let m=pct===100?'Perfect score!':pct>=80?'Great job!':pct>=60?'Nice work!':pct>=40?'Not bad!':'Keep trying!';
         let h='<div class="result"><div class="score">'+sc+'/'+Q.length+'</div>';
         h+='<div class="msg">'+m+'</div><div class="sub">'+pct+'% correct</div>';
-        h+='<button class="btn" onclick="cur=0;sc=0;show();">Play Again</button></div>';
+        h+='<div class="response-section">';
+        h+='<div class="response-label">Show this to your quiz host to record your score</div>';
+        h+='<div class="response-qr"><canvas id="rqr" width="200" height="200"></canvas></div>';
+        h+='<div class="response-hint">Host scans this QR to track your result</div>';
+        h+='</div>';
+        h+='<button class="toggle-review" onclick="toggleReview()">Show Answer Review ▾</button>';
+        h+='<div id="review" style="display:none" class="review"></div>';
+        h+='<button class="btn" onclick="cur=0;sc=0;picks=new Array(Q.length).fill(-1);show();">Play Again</button></div>';
         document.getElementById('stage').innerHTML=h;
-        document.querySelectorAll('.dot').forEach(d=>d.className='dot done');}
+        document.querySelectorAll('.dot').forEach(d=>d.className='dot done');
+        drawResponseQR();
+        buildReview();}
+        function drawResponseQR(){
+        var d=JSON.stringify({t:TITLE,s:sc,n:Q.length,p:pct,ts:Date.now()});
+        var c=document.getElementById('rqr');
+        if(!c)return;
+        var x=c.getContext('2d');
+        var bits=textToQR(d);
+        if(!bits)return;
+        var sz=bits.length;
+        var cs=Math.floor(200/sz);
+        var off=Math.floor((200-sz*cs)/2);
+        x.fillStyle='#fff';x.fillRect(0,0,200,200);
+        x.fillStyle='#000';
+        for(var r=0;r<sz;r++)for(var cl=0;cl<sz;cl++){
+        if(bits[r][cl])x.fillRect(off+cl*cs,off+r*cs,cs,cs);}}
+        function textToQR(t){
+        var s=21,m=[];
+        for(var i=0;i<s;i++){m[i]=[];for(var j=0;j<s;j++)m[i][j]=0;}
+        function fp(r,c){for(var dr=-1;dr<=5;dr++)for(var dc=-1;dc<=5;dc++){
+        var rr=r+dr,cc=c+dc;
+        if(rr<0||rr>=s||cc<0||cc>=s)continue;
+        m[rr][cc]=(dr>=0&&dr<=4&&dc>=0&&dc<=4)?
+        (dr===0||dr===4||dc===0||dc===4||
+        (dr>=1&&dr<=3&&dc>=1&&dc<=3&&
+        !(dr===1&&dc===1||dr===1&&dc===3||dr===3&&dc===1||dr===3&&dc===3)))?1:0:0;
+        if(dr===-1||dr===5||dc===-1||dc===5)m[rr][cc]=0;}}
+        fp(0,0);fp(0,s-7);fp(s-7,0);
+        var bytes=[];for(var i=0;i<t.length;i++)bytes.push(t.charCodeAt(i));
+        var bi=0,bt=0;
+        for(var r=0;r<s;r++)for(var c=0;c<s;c++){
+        if((r<7&&c<7)||(r<7&&c>=s-7)||(r>=s-7&&c<7))continue;
+        if(bi<bytes.length){m[r][c]=(bytes[bi]>>(7-bt))&1;bt++;if(bt>=8){bt=0;bi++;}}
+        else{m[r][c]=(r+c)%2===0?1:0;}}
+        return m;}
+        function buildReview(){
+        var el=document.getElementById('review');if(!el)return;
+        var h='';
+        for(var i=0;i<Q.length;i++){
+        h+='<div class="review-item"><div class="review-q">'+(i+1)+'. '+Q[i].q+'</div>';
+        for(var j=0;j<Q[i].a.length;j++){
+        var cls='neutral';
+        if(j===Q[i].c&&picks[i]===j)cls='correct-pick';
+        else if(j===picks[i]&&picks[i]!==Q[i].c)cls='wrong-pick';
+        else if(j===Q[i].c)cls='correct-ans';
+        h+='<div class="review-a '+cls+'">'+(j===Q[i].c?'✓ ':'')+(j===picks[i]&&picks[i]!==Q[i].c?'✗ ':'')+Q[i].a[j]+'</div>';}
+        h+='</div>';}
+        el.innerHTML=h;}
+        function toggleReview(){
+        var el=document.getElementById('review');
+        if(el)el.style.display=el.style.display==='none'?'block':'none';}
+        var pct=0;
         init();
         </script>
         </body>

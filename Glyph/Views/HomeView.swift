@@ -11,6 +11,7 @@ struct HomeView: View {
     @State private var showFriends = false
     @State private var showSocialLink = false
     @State private var showOnboarding = false
+    @State private var showShareCard = false
     @State private var glowPhase: CGFloat = 0
     @AppStorage("flashOnScanEnabled") private var flashOnScanEnabled = true
     @ObservedObject private var socialProfile = SocialProfile.shared
@@ -22,196 +23,213 @@ struct HomeView: View {
                 GlyphTheme.backgroundGradient
                     .ignoresSafeArea()
                 
-                VStack(spacing: 40) {
-                    Spacer()
-                    
-                    // Logo area
-                    VStack(spacing: 12) {
-                        // Glyph logo
-                        GlyphLogoView(size: 100)
-                        
-                        Text("Glyph")
-                            .font(.system(size: 42, weight: .bold, design: .rounded))
-                            .foregroundColor(GlyphTheme.primaryText)
-                        
-                        Text("Say it. Show it. Gone.")
-                            .font(.system(size: 16, weight: .medium, design: .rounded))
-                            .foregroundColor(GlyphTheme.secondaryText)
-                        
-                        // Social identity badge (if linked)
-                        if socialProfile.isLinked {
-                            Button {
-                                showSocialLink = true
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: socialProfile.platform.icon)
-                                        .font(.system(size: 13))
-                                    Text("@\(socialProfile.handle)")
-                                        .font(.system(size: 13, weight: .medium, design: .rounded))
+                GeometryReader { geo in
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 40) {
+                            Spacer()
+                                .frame(minHeight: 20)
+                            
+                            // Logo area
+                            VStack(spacing: 12) {
+                                // Glyph logo
+                                GlyphLogoView(size: 100)
+                                
+                                Text("Glyph")
+                                    .font(.system(size: 42, weight: .bold, design: .rounded))
+                                    .foregroundColor(GlyphTheme.primaryText)
+                                
+                                Text("Say it. Show it. Gone.")
+                                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                                    .foregroundColor(GlyphTheme.secondaryText)
+                                
+                                // Social identity badge (if linked)
+                                if socialProfile.isLinked {
+                                    Button {
+                                        showSocialLink = true
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: socialProfile.platform.icon)
+                                                .font(.system(size: 13))
+                                            Text("@\(socialProfile.handle)")
+                                                .font(.system(size: 13, weight: .medium, design: .rounded))
+                                        }
+                                        .foregroundStyle(GlyphTheme.accentGradient)
+                                        .padding(.horizontal, 14)
+                                        .padding(.vertical, 6)
+                                        .background(GlyphTheme.surface)
+                                        .clipShape(Capsule())
+                                        .overlay(
+                                            Capsule()
+                                                .stroke(GlyphTheme.violet.opacity(0.2), lineWidth: 1)
+                                        )
+                                    }
                                 }
-                                .foregroundStyle(GlyphTheme.accentGradient)
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 6)
-                                .background(GlyphTheme.surface)
-                                .clipShape(Capsule())
-                                .overlay(
-                                    Capsule()
-                                        .stroke(GlyphTheme.violet.opacity(0.2), lineWidth: 1)
-                                )
-                            }
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    // Action buttons
-                    VStack(spacing: 16) {
-                        // Compose button
-                        Button {
-                            showCompose = true
-                        } label: {
-                            HStack(spacing: 12) {
-                                Image(systemName: "square.and.pencil")
-                                    .font(.system(size: 20, weight: .semibold))
-                                Text("Compose")
-                                    .font(.system(size: 18, weight: .semibold, design: .rounded))
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: GlyphTheme.buttonHeight)
-                            .background(GlyphTheme.accentGradient)
-                            .foregroundColor(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
-                        }
-                        
-                        // Scan button
-                        Button {
-                            showScanner = true
-                        } label: {
-                            HStack(spacing: 12) {
-                                Image(systemName: "camera.viewfinder")
-                                    .font(.system(size: 20, weight: .semibold))
-                                Text("Scan")
-                                    .font(.system(size: 18, weight: .semibold, design: .rounded))
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: GlyphTheme.buttonHeight)
-                            .background(GlyphTheme.surface)
-                            .foregroundColor(GlyphTheme.accent)
-                            .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
-                                    .stroke(GlyphTheme.accent.opacity(0.3), lineWidth: 1)
-                            )
-                        }
-                        
-                        // Bottom row: Create + Friends + Library
-                        HStack(spacing: 12) {
-                            Button {
-                                showWebCompose = true
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "sparkles.rectangle.stack")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    Text("Create")
-                                        .font(.system(size: 14, weight: .semibold, design: .rounded))
-                                }
-                                .frame(maxWidth: .infinity)
-                                .frame(height: GlyphTheme.buttonHeight)
-                                .background(GlyphTheme.surface)
-                                .foregroundColor(GlyphTheme.violet)
-                                .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
-                                        .stroke(GlyphTheme.violet.opacity(0.3), lineWidth: 1)
-                                )
                             }
                             
-                            Button {
-                                showFriends = true
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "person.2")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    Text("Friends")
-                                        .font(.system(size: 14, weight: .semibold, design: .rounded))
-                                }
-                                .frame(maxWidth: .infinity)
-                                .frame(height: GlyphTheme.buttonHeight)
-                                .background(GlyphTheme.surface)
-                                .foregroundColor(GlyphTheme.accent)
-                                .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
-                                        .stroke(GlyphTheme.accent.opacity(0.2), lineWidth: 1)
-                                )
-                            }
+                            Spacer()
+                                .frame(minHeight: 20)
                             
-                            Button {
-                                showLibrary = true
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "archivebox")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    Text("Library")
-                                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            // Action buttons
+                            VStack(spacing: 16) {
+                                // Compose button
+                                Button {
+                                    showCompose = true
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        Image(systemName: "square.and.pencil")
+                                            .font(.system(size: 20, weight: .semibold))
+                                        Text("Compose")
+                                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: GlyphTheme.buttonHeight)
+                                    .background(GlyphTheme.accentGradient)
+                                    .foregroundColor(.black)
+                                    .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
                                 }
-                                .frame(maxWidth: .infinity)
-                                .frame(height: GlyphTheme.buttonHeight)
-                                .background(GlyphTheme.surface)
-                                .foregroundColor(GlyphTheme.secondaryText)
-                                .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
-                                        .stroke(GlyphTheme.secondaryText.opacity(0.2), lineWidth: 1)
-                                )
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 32)
-                    
-                    // Bottom links
-                    HStack(spacing: 20) {
-                        if !socialProfile.isLinked {
-                            Button {
-                                showSocialLink = true
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "person.crop.circle.badge.plus")
-                                        .font(.system(size: 14))
-                                    Text("Link Social")
-                                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                                
+                                // Scan button
+                                Button {
+                                    showScanner = true
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        Image(systemName: "camera.viewfinder")
+                                            .font(.system(size: 20, weight: .semibold))
+                                        Text("Scan")
+                                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: GlyphTheme.buttonHeight)
+                                    .background(GlyphTheme.surface)
+                                    .foregroundColor(GlyphTheme.accent)
+                                    .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
+                                            .stroke(GlyphTheme.accent.opacity(0.3), lineWidth: 1)
+                                    )
                                 }
-                                .foregroundColor(GlyphTheme.secondaryText)
+                                
+                                // Bottom row: Create + Friends + Library
+                                HStack(spacing: 12) {
+                                    Button {
+                                        showWebCompose = true
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "square.grid.2x2")
+                                                .font(.system(size: 14, weight: .semibold))
+                                            Text("Apps")
+                                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: GlyphTheme.buttonHeight)
+                                        .background(GlyphTheme.surface)
+                                        .foregroundColor(GlyphTheme.violet)
+                                        .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
+                                                .stroke(GlyphTheme.violet.opacity(0.3), lineWidth: 1)
+                                        )
+                                    }
+                                    
+                                    Button {
+                                        showFriends = true
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "person.2")
+                                                .font(.system(size: 14, weight: .semibold))
+                                            Text("Friends")
+                                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: GlyphTheme.buttonHeight)
+                                        .background(GlyphTheme.surface)
+                                        .foregroundColor(GlyphTheme.accent)
+                                        .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
+                                                .stroke(GlyphTheme.accent.opacity(0.2), lineWidth: 1)
+                                        )
+                                    }
+                                    
+                                    Button {
+                                        showLibrary = true
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "archivebox")
+                                                .font(.system(size: 14, weight: .semibold))
+                                            Text("Library")
+                                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: GlyphTheme.buttonHeight)
+                                        .background(GlyphTheme.surface)
+                                        .foregroundColor(GlyphTheme.secondaryText)
+                                        .clipShape(RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: GlyphTheme.cornerRadius)
+                                                .stroke(GlyphTheme.secondaryText.opacity(0.2), lineWidth: 1)
+                                        )
+                                    }
+                                }
                             }
-                        }
-                        
-                        Button {
-                            showOnboarding = true
-                        } label: {
-                            HStack(spacing: 6) {
-                                Image(systemName: "info.circle")
-                                    .font(.system(size: 14))
-                                Text("About")
-                                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .padding(.horizontal, 32)
+                            
+                            // Bottom links
+                            HStack(spacing: 20) {
+                                Button {
+                                    showShareCard = true
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "qrcode")
+                                            .font(.system(size: 14))
+                                        Text("Share Glyph")
+                                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    }
+                                    .foregroundColor(GlyphTheme.accent)
+                                }
+                                
+                                if !socialProfile.isLinked {
+                                    Button {
+                                        showSocialLink = true
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "person.crop.circle.badge.plus")
+                                                .font(.system(size: 14))
+                                            Text("Link Social")
+                                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                        }
+                                        .foregroundColor(GlyphTheme.secondaryText)
+                                    }
+                                }
+                                
+                                Button {
+                                    showOnboarding = true
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "info.circle")
+                                            .font(.system(size: 14))
+                                        Text("About")
+                                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    }
+                                    .foregroundColor(GlyphTheme.secondaryText)
+                                }
+                                
+                                Button {
+                                    flashOnScanEnabled.toggle()
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: flashOnScanEnabled ? "bolt.fill" : "bolt.slash.fill")
+                                            .font(.system(size: 14))
+                                        Text(flashOnScanEnabled ? "Flash On" : "Flash Off")
+                                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    }
+                                    .foregroundColor(GlyphTheme.secondaryText)
+                                }
                             }
-                            .foregroundColor(GlyphTheme.secondaryText)
+                            .padding(.bottom, 24)
                         }
-                        
-                        Button {
-                            flashOnScanEnabled.toggle()
-                        } label: {
-                            HStack(spacing: 6) {
-                                Image(systemName: flashOnScanEnabled ? "bolt.fill" : "bolt.slash.fill")
-                                    .font(.system(size: 14))
-                                Text(flashOnScanEnabled ? "Flash On" : "Flash Off")
-                                    .font(.system(size: 14, weight: .medium, design: .rounded))
-                            }
-                            .foregroundColor(GlyphTheme.secondaryText)
-                        }
+                        .frame(minHeight: geo.size.height)
                     }
-                    
-                    Spacer()
-                        .frame(height: 40)
                 }
             }
             .navigationDestination(isPresented: $showCompose) {
@@ -231,6 +249,9 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showSocialLink) {
                 SocialLinkSheet()
+            }
+            .sheet(isPresented: $showShareCard) {
+                ShareCardView()
             }
             .fullScreenCover(isPresented: $showOnboarding) {
                 OnboardingView()

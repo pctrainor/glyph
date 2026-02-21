@@ -106,7 +106,7 @@ struct WebComposeView: View {
                 templateEditor
             }
         }
-        .navigationTitle(selectedTemplate?.displayName ?? "Create Experience")
+        .navigationTitle(selectedTemplate?.displayName ?? "Apps")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .fullScreenCover(isPresented: $showQR) {
@@ -125,13 +125,13 @@ struct WebComposeView: View {
         ScrollView {
             VStack(spacing: 16) {
                 VStack(spacing: 8) {
-                    Image(systemName: "sparkles")
+                    Image(systemName: "square.grid.2x2")
                         .font(.system(size: 48))
                         .foregroundStyle(GlyphTheme.accentGradient)
-                    Text("Create an Experience")
+                    Text("Glyph Apps")
                         .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundStyle(GlyphTheme.primaryText)
-                    Text("Build interactive content that lives inside QR codes.\nNo internet needed — ever.")
+                    Text("Interactive apps delivered via QR code.\nNo internet needed — ever.")
                         .font(.system(size: 15, design: .rounded))
                         .foregroundStyle(GlyphTheme.secondaryText)
                         .multilineTextAlignment(.center)
@@ -196,7 +196,23 @@ struct WebComposeView: View {
         case .survey:
             SurveyEditorRedirectView()
         case .agent:
-            AgentComposeView()
+            // Agent is temporarily disabled — placeholder UI
+            VStack(spacing: 20) {
+                Spacer()
+                Image(systemName: "person.crop.rectangle.stack")
+                    .font(.system(size: 64))
+                    .foregroundStyle(GlyphTheme.accentGradient)
+                Text("Host an Agent")
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundStyle(GlyphTheme.primaryText)
+                Text("AI agents are coming soon.\nStay tuned for creative persona-driven QR messages.")
+                    .font(.system(size: 15, design: .rounded))
+                    .foregroundStyle(GlyphTheme.secondaryText)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+        case .translation:
+            TranslationView()
         case .none:
             EmptyView()
         }
@@ -291,7 +307,7 @@ struct GenerateButtonView: View {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.system(size: 20, weight: .semibold))
                 }
-                Text("Generate Experience")
+                Text("Generate QR")
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
             }
             .frame(maxWidth: .infinity)
@@ -350,7 +366,231 @@ struct GlyphTextField: View {
     }
 }
 
-// MARK: - Trivia Editor View
+// MARK: - Quiz Editor View
+
+/// Quiz categories with pre-built question banks.
+enum QuizCategory: String, CaseIterable, Identifiable {
+    case custom = "custom"
+    case movies = "movies"
+    case geography = "geography"
+    case history = "history"
+    case science = "science"
+    case sports = "sports"
+    case music = "music"
+    case popCulture = "pop_culture"
+    case foodDrink = "food_drink"
+    case animals = "animals"
+    case technology = "technology"
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .custom:     return "Custom"
+        case .movies:     return "Movies"
+        case .geography:  return "Geography"
+        case .history:    return "History"
+        case .science:    return "Science"
+        case .sports:     return "Sports"
+        case .music:      return "Music"
+        case .popCulture: return "Pop Culture"
+        case .foodDrink:  return "Food & Drink"
+        case .animals:    return "Animals"
+        case .technology: return "Technology"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .custom:     return "pencil.and.list.clipboard"
+        case .movies:     return "film"
+        case .geography:  return "globe.americas"
+        case .history:    return "clock.arrow.circlepath"
+        case .science:    return "atom"
+        case .sports:     return "sportscourt"
+        case .music:      return "music.note"
+        case .popCulture: return "star.fill"
+        case .foodDrink:  return "fork.knife"
+        case .animals:    return "pawprint.fill"
+        case .technology: return "desktopcomputer"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .custom:     return GlyphTheme.accent
+        case .movies:     return Color(red: 1.0, green: 0.6, blue: 0.2)
+        case .geography:  return Color(red: 0.2, green: 0.8, blue: 0.4)
+        case .history:    return Color(red: 0.8, green: 0.6, blue: 0.3)
+        case .science:    return Color(red: 0.4, green: 0.7, blue: 1.0)
+        case .sports:     return Color(red: 1.0, green: 0.4, blue: 0.3)
+        case .music:      return Color(red: 0.8, green: 0.3, blue: 0.9)
+        case .popCulture: return Color(red: 1.0, green: 0.8, blue: 0.0)
+        case .foodDrink:  return Color(red: 0.9, green: 0.4, blue: 0.5)
+        case .animals:    return Color(red: 0.5, green: 0.8, blue: 0.3)
+        case .technology: return Color(red: 0.3, green: 0.8, blue: 0.9)
+        }
+    }
+
+    /// Pre-built questions for each category.
+    var presetQuestions: [TriviaQuestionInput] {
+        switch self {
+        case .custom:
+            return [TriviaQuestionInput()]
+
+        case .movies:
+            return [
+                TriviaQuestionInput.preset("What film won Best Picture at the 2024 Oscars?", ["Oppenheimer", "Barbie", "Killers of the Flower Moon", "Poor Things"], 0),
+                TriviaQuestionInput.preset("Who directed Jurassic Park?", ["James Cameron", "Steven Spielberg", "Ridley Scott", "George Lucas"], 1),
+                TriviaQuestionInput.preset("Which movie features the quote 'Here's looking at you, kid'?", ["Gone with the Wind", "The Maltese Falcon", "Casablanca", "Citizen Kane"], 2),
+                TriviaQuestionInput.preset("What is the highest-grossing film of all time?", ["Avengers: Endgame", "Avatar", "Titanic", "Star Wars: The Force Awakens"], 1),
+                TriviaQuestionInput.preset("Who played the Joker in The Dark Knight?", ["Jack Nicholson", "Jared Leto", "Joaquin Phoenix", "Heath Ledger"], 3),
+                TriviaQuestionInput.preset("Which Studio Ghibli film features a bathhouse for spirits?", ["My Neighbor Totoro", "Spirited Away", "Princess Mononoke", "Howl's Moving Castle"], 1),
+                TriviaQuestionInput.preset("What year was the original Star Wars released?", ["1975", "1977", "1979", "1980"], 1),
+                TriviaQuestionInput.preset("Which actor has won the most Academy Awards?", ["Meryl Streep", "Daniel Day-Lewis", "Katharine Hepburn", "Jack Nicholson"], 2),
+                TriviaQuestionInput.preset("What is the name of the fictional country in Black Panther?", ["Genosha", "Wakanda", "Latveria", "Zamunda"], 1),
+                TriviaQuestionInput.preset("Who composed the score for Inception?", ["John Williams", "Hans Zimmer", "Howard Shore", "Danny Elfman"], 1),
+            ]
+
+        case .geography:
+            return [
+                TriviaQuestionInput.preset("What is the smallest country in the world?", ["Monaco", "Liechtenstein", "Vatican City", "San Marino"], 2),
+                TriviaQuestionInput.preset("Which river is the longest in the world?", ["Amazon", "Nile", "Mississippi", "Yangtze"], 1),
+                TriviaQuestionInput.preset("What is the capital of Australia?", ["Sydney", "Melbourne", "Canberra", "Brisbane"], 2),
+                TriviaQuestionInput.preset("Which desert is the largest in the world?", ["Sahara", "Arabian", "Gobi", "Antarctic"], 3),
+                TriviaQuestionInput.preset("Mount Everest is located on the border of which two countries?", ["India & China", "Nepal & China", "Nepal & India", "Pakistan & China"], 1),
+                TriviaQuestionInput.preset("What is the most populated city in the world?", ["Shanghai", "Delhi", "Tokyo", "São Paulo"], 2),
+                TriviaQuestionInput.preset("Which country has the most time zones?", ["Russia", "USA", "France", "China"], 2),
+                TriviaQuestionInput.preset("What is the deepest ocean trench?", ["Tonga Trench", "Philippine Trench", "Mariana Trench", "Java Trench"], 2),
+                TriviaQuestionInput.preset("Which African country was never colonized?", ["Nigeria", "Kenya", "Ethiopia", "Ghana"], 2),
+                TriviaQuestionInput.preset("What is the largest island in the world?", ["Madagascar", "Borneo", "Greenland", "New Guinea"], 2),
+            ]
+
+        case .history:
+            return [
+                TriviaQuestionInput.preset("In what year did World War II end?", ["1943", "1944", "1945", "1946"], 2),
+                TriviaQuestionInput.preset("Who was the first person to walk on the Moon?", ["Buzz Aldrin", "Neil Armstrong", "John Glenn", "Yuri Gagarin"], 1),
+                TriviaQuestionInput.preset("The Berlin Wall fell in which year?", ["1987", "1989", "1991", "1993"], 1),
+                TriviaQuestionInput.preset("Who painted the Mona Lisa?", ["Michelangelo", "Raphael", "Leonardo da Vinci", "Donatello"], 2),
+                TriviaQuestionInput.preset("Which empire built Machu Picchu?", ["Aztec", "Maya", "Inca", "Olmec"], 2),
+                TriviaQuestionInput.preset("What ancient wonder was located in Alexandria?", ["Colossus", "Hanging Gardens", "Lighthouse", "Temple of Artemis"], 2),
+                TriviaQuestionInput.preset("Who was the first woman to fly solo across the Atlantic?", ["Bessie Coleman", "Amelia Earhart", "Harriet Quimby", "Jacqueline Cochran"], 1),
+                TriviaQuestionInput.preset("The French Revolution began in which year?", ["1776", "1789", "1799", "1804"], 1),
+                TriviaQuestionInput.preset("Which civilization invented paper?", ["Egyptian", "Greek", "Chinese", "Roman"], 2),
+                TriviaQuestionInput.preset("Who wrote the Declaration of Independence?", ["Benjamin Franklin", "John Adams", "Thomas Jefferson", "George Washington"], 2),
+            ]
+
+        case .science:
+            return [
+                TriviaQuestionInput.preset("What is the chemical symbol for gold?", ["Go", "Gd", "Au", "Ag"], 2),
+                TriviaQuestionInput.preset("How many bones are in the adult human body?", ["186", "206", "226", "256"], 1),
+                TriviaQuestionInput.preset("What planet is known as the Red Planet?", ["Venus", "Jupiter", "Mars", "Saturn"], 2),
+                TriviaQuestionInput.preset("What is the speed of light (approx)?", ["186,000 mi/s", "670,000 mi/s", "1 million mi/s", "93,000 mi/s"], 0),
+                TriviaQuestionInput.preset("What gas do plants absorb from the atmosphere?", ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], 2),
+                TriviaQuestionInput.preset("What is the hardest natural substance?", ["Quartz", "Topaz", "Diamond", "Corundum"], 2),
+                TriviaQuestionInput.preset("Who developed the theory of general relativity?", ["Isaac Newton", "Albert Einstein", "Niels Bohr", "Max Planck"], 1),
+                TriviaQuestionInput.preset("What is the powerhouse of the cell?", ["Nucleus", "Ribosome", "Mitochondria", "Golgi Body"], 2),
+                TriviaQuestionInput.preset("What element has the atomic number 1?", ["Helium", "Hydrogen", "Lithium", "Carbon"], 1),
+                TriviaQuestionInput.preset("How many planets are in our solar system?", ["7", "8", "9", "10"], 1),
+            ]
+
+        case .sports:
+            return [
+                TriviaQuestionInput.preset("How many players are on a soccer team?", ["9", "10", "11", "12"], 2),
+                TriviaQuestionInput.preset("Which country has won the most FIFA World Cups?", ["Germany", "Argentina", "Italy", "Brazil"], 3),
+                TriviaQuestionInput.preset("What sport is played at Wimbledon?", ["Cricket", "Tennis", "Golf", "Rugby"], 1),
+                TriviaQuestionInput.preset("How many rings are on the Olympic flag?", ["4", "5", "6", "7"], 1),
+                TriviaQuestionInput.preset("Who holds the record for most NBA points?", ["Michael Jordan", "Kobe Bryant", "LeBron James", "Kareem Abdul-Jabbar"], 2),
+                TriviaQuestionInput.preset("In which sport would you perform a slam dunk?", ["Volleyball", "Tennis", "Basketball", "Handball"], 2),
+                TriviaQuestionInput.preset("What is the national sport of Japan?", ["Karate", "Sumo", "Judo", "Kendo"], 1),
+                TriviaQuestionInput.preset("How long is a marathon (approx)?", ["20 miles", "24 miles", "26.2 miles", "30 miles"], 2),
+                TriviaQuestionInput.preset("Which country invented cricket?", ["Australia", "India", "South Africa", "England"], 3),
+                TriviaQuestionInput.preset("What sport uses a shuttlecock?", ["Table Tennis", "Badminton", "Squash", "Racquetball"], 1),
+            ]
+
+        case .music:
+            return [
+                TriviaQuestionInput.preset("Who is known as the 'King of Pop'?", ["Prince", "Elvis Presley", "Michael Jackson", "Stevie Wonder"], 2),
+                TriviaQuestionInput.preset("Which band released 'Bohemian Rhapsody'?", ["The Beatles", "Led Zeppelin", "Queen", "Pink Floyd"], 2),
+                TriviaQuestionInput.preset("What instrument has 88 keys?", ["Guitar", "Violin", "Piano", "Harp"], 2),
+                TriviaQuestionInput.preset("Which country is K-pop from?", ["Japan", "China", "South Korea", "Thailand"], 2),
+                TriviaQuestionInput.preset("Who sang 'Rolling in the Deep'?", ["Beyoncé", "Adele", "Rihanna", "Taylor Swift"], 1),
+                TriviaQuestionInput.preset("What was Elvis Presley's first #1 hit?", ["Jailhouse Rock", "Heartbreak Hotel", "Hound Dog", "Love Me Tender"], 1),
+                TriviaQuestionInput.preset("Which instrument does a DJ typically use?", ["Drums", "Turntables", "Saxophone", "Bass Guitar"], 1),
+                TriviaQuestionInput.preset("What genre originated in the Bronx in the 1970s?", ["Jazz", "Disco", "Hip-Hop", "Punk"], 2),
+                TriviaQuestionInput.preset("How many strings does a standard guitar have?", ["4", "5", "6", "8"], 2),
+                TriviaQuestionInput.preset("Who composed 'Moonlight Sonata'?", ["Mozart", "Bach", "Beethoven", "Chopin"], 2),
+            ]
+
+        case .popCulture:
+            return [
+                TriviaQuestionInput.preset("What is the name of the fictional school in Harry Potter?", ["Durmstrang", "Beauxbatons", "Hogwarts", "Ilvermorny"], 2),
+                TriviaQuestionInput.preset("Which social media app uses disappearing 'Stories'?", ["Twitter", "LinkedIn", "Snapchat", "Pinterest"], 2),
+                TriviaQuestionInput.preset("Who created the character Mickey Mouse?", ["Walt Disney", "Jim Henson", "Chuck Jones", "Hayao Miyazaki"], 0),
+                TriviaQuestionInput.preset("What is Baby Yoda's real name?", ["Yoda Jr.", "Grogu", "Din", "Yaddle"], 1),
+                TriviaQuestionInput.preset("Which show features the phrase 'Winter is Coming'?", ["The Witcher", "Lord of the Rings", "Game of Thrones", "Vikings"], 2),
+                TriviaQuestionInput.preset("What game features characters like Mario and Luigi?", ["Sonic", "Zelda", "Super Mario Bros.", "Donkey Kong"], 2),
+                TriviaQuestionInput.preset("Who played Iron Man in the MCU?", ["Chris Evans", "Chris Hemsworth", "Robert Downey Jr.", "Mark Ruffalo"], 2),
+                TriviaQuestionInput.preset("What does 'GOAT' stand for in slang?", ["Get Out And Try", "Greatest Of All Time", "Going On A Trip", "Good Or Average Today"], 1),
+                TriviaQuestionInput.preset("Which platform is known for short-form video?", ["YouTube", "Facebook", "TikTok", "Reddit"], 2),
+                TriviaQuestionInput.preset("What year was the first iPhone released?", ["2005", "2006", "2007", "2008"], 2),
+            ]
+
+        case .foodDrink:
+            return [
+                TriviaQuestionInput.preset("What country is sushi originally from?", ["China", "Korea", "Japan", "Thailand"], 2),
+                TriviaQuestionInput.preset("What is the main ingredient in guacamole?", ["Tomato", "Pepper", "Avocado", "Lime"], 2),
+                TriviaQuestionInput.preset("Which spice is the most expensive by weight?", ["Vanilla", "Saffron", "Cardamom", "Cinnamon"], 1),
+                TriviaQuestionInput.preset("What type of pasta is shaped like a bow tie?", ["Penne", "Rigatoni", "Farfalle", "Fusilli"], 2),
+                TriviaQuestionInput.preset("Which fruit is known as the 'king of fruits'?", ["Mango", "Durian", "Jackfruit", "Pineapple"], 1),
+                TriviaQuestionInput.preset("What is the most consumed beverage in the world (after water)?", ["Coffee", "Tea", "Beer", "Milk"], 1),
+                TriviaQuestionInput.preset("Where did the croissant originate?", ["France", "Austria", "Italy", "Belgium"], 1),
+                TriviaQuestionInput.preset("What nut is used to make marzipan?", ["Walnut", "Cashew", "Almond", "Pistachio"], 2),
+                TriviaQuestionInput.preset("Which country produces the most coffee?", ["Colombia", "Ethiopia", "Vietnam", "Brazil"], 3),
+                TriviaQuestionInput.preset("What is tofu made from?", ["Rice", "Wheat", "Soybeans", "Corn"], 2),
+            ]
+
+        case .animals:
+            return [
+                TriviaQuestionInput.preset("What is the fastest land animal?", ["Lion", "Cheetah", "Gazelle", "Pronghorn"], 1),
+                TriviaQuestionInput.preset("How many hearts does an octopus have?", ["1", "2", "3", "4"], 2),
+                TriviaQuestionInput.preset("What is a group of lions called?", ["Pack", "Herd", "Pride", "Flock"], 2),
+                TriviaQuestionInput.preset("Which bird can fly backwards?", ["Eagle", "Penguin", "Hummingbird", "Owl"], 2),
+                TriviaQuestionInput.preset("What is the largest mammal?", ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"], 1),
+                TriviaQuestionInput.preset("How many legs does a spider have?", ["6", "8", "10", "12"], 1),
+                TriviaQuestionInput.preset("What animal has the longest lifespan?", ["Elephant", "Galápagos Tortoise", "Bowhead Whale", "Parrot"], 2),
+                TriviaQuestionInput.preset("Which animal can change its color?", ["Gecko", "Chameleon", "Iguana", "Tree Frog"], 1),
+                TriviaQuestionInput.preset("What is the only mammal that can fly?", ["Flying Squirrel", "Sugar Glider", "Bat", "Colugo"], 2),
+                TriviaQuestionInput.preset("How long can a cockroach live without its head?", ["1 hour", "1 day", "1 week", "1 month"], 2),
+            ]
+
+        case .technology:
+            return [
+                TriviaQuestionInput.preset("What does 'HTTP' stand for?", ["HyperText Transfer Protocol", "High Tech Transfer Program", "Home Tool Transfer Process", "HyperText Technical Protocol"], 0),
+                TriviaQuestionInput.preset("Who co-founded Apple with Steve Jobs?", ["Bill Gates", "Steve Wozniak", "Tim Cook", "Larry Page"], 1),
+                TriviaQuestionInput.preset("What programming language has a coffee cup logo?", ["Python", "C++", "Java", "Ruby"], 2),
+                TriviaQuestionInput.preset("What year was the World Wide Web invented?", ["1985", "1989", "1993", "1995"], 1),
+                TriviaQuestionInput.preset("What does 'AI' stand for?", ["Automated Intelligence", "Artificial Intelligence", "Advanced Integration", "Algorithmic Inference"], 1),
+                TriviaQuestionInput.preset("Which company created the Android OS?", ["Apple", "Google", "Microsoft", "Samsung"], 1),
+                TriviaQuestionInput.preset("What does 'GPU' stand for?", ["General Processing Unit", "Graphics Processing Unit", "Global Power Unit", "Graphical Program Utility"], 1),
+                TriviaQuestionInput.preset("Who is known as the father of the computer?", ["Alan Turing", "Charles Babbage", "John von Neumann", "Ada Lovelace"], 1),
+                TriviaQuestionInput.preset("What was the first programmable computer called?", ["ENIAC", "Z3", "Colossus", "UNIVAC"], 1),
+                TriviaQuestionInput.preset("What does 'URL' stand for?", ["Universal Resource Locator", "Uniform Resource Locator", "United Reference Link", "Universal Reference Locator"], 1),
+            ]
+        }
+    }
+}
+
+extension TriviaQuestionInput {
+    /// Convenience factory for preset questions.
+    static func preset(_ question: String, _ answers: [String], _ correct: Int) -> TriviaQuestionInput {
+        var q = TriviaQuestionInput()
+        q.question = question
+        q.answers = answers
+        q.correctIndex = correct
+        return q
+    }
+}
 
 struct TriviaEditorView: View {
     @Binding var title: String
@@ -359,30 +599,160 @@ struct TriviaEditorView: View {
     @Binding var qrImages: [UIImage]
     @Binding var showQR: Bool
 
+    @State private var selectedCategory: QuizCategory = .custom
+    @State private var questionCount: Int = 5
+    @State private var showCategoryPicker = true
+
     var body: some View {
         ScrollView {
-            triviaContent
+            if showCategoryPicker {
+                categoryPickerContent
+            } else {
+                quizEditorContent
+            }
         }
     }
 
-    private var triviaContent: some View {
+    // MARK: - Category Picker
+
+    private var categoryPickerContent: some View {
         VStack(spacing: 20) {
-            GlyphTextField(label: "Quiz Title", placeholder: "e.g., NYC Subway Trivia", text: $title)
+            VStack(spacing: 8) {
+                Image(systemName: "questionmark.circle")
+                    .font(.system(size: 48))
+                    .foregroundStyle(GlyphTheme.accentGradient)
+                Text("Choose a Category")
+                    .font(.system(size: 22, weight: .bold, design: .rounded))
+                    .foregroundStyle(GlyphTheme.primaryText)
+                Text("Pick a preset category or create your own quiz.")
+                    .font(.system(size: 14, design: .rounded))
+                    .foregroundStyle(GlyphTheme.secondaryText)
+            }
+            .padding(.top, 16)
+
+            // Category grid
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+            ], spacing: 12) {
+                ForEach(QuizCategory.allCases) { category in
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                            selectedCategory = category
+                            if category == .custom {
+                                title = ""
+                                questions = [TriviaQuestionInput()]
+                                showCategoryPicker = false
+                            } else {
+                                title = category.displayName + " Quiz"
+                                let preset = category.presetQuestions.shuffled()
+                                questions = Array(preset.prefix(questionCount))
+                                showCategoryPicker = false
+                            }
+                        }
+                    } label: {
+                        VStack(spacing: 8) {
+                            Image(systemName: category.icon)
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundStyle(category.color)
+                            Text(category.displayName)
+                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                .foregroundStyle(GlyphTheme.primaryText)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 90)
+                        .background(GlyphTheme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(category.color.opacity(0.25), lineWidth: 1)
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal, 24)
+
+            // Question count picker (for presets)
+            VStack(spacing: 8) {
+                Text("Questions per quiz")
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(GlyphTheme.secondaryText)
+                HStack(spacing: 8) {
+                    ForEach([5, 7, 10], id: \.self) { count in
+                        Button {
+                            questionCount = count
+                        } label: {
+                            Text("\(count)")
+                                .font(.system(size: 15, weight: .bold, design: .rounded))
+                                .foregroundStyle(questionCount == count ? .black : GlyphTheme.secondaryText)
+                                .frame(width: 48, height: 36)
+                                .background(questionCount == count ? AnyShapeStyle(GlyphTheme.accentGradient) : AnyShapeStyle(GlyphTheme.surface))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                }
+            }
+            .padding(.top, 8)
+            .padding(.bottom, 24)
+        }
+    }
+
+    // MARK: - Quiz Editor
+
+    private var quizEditorContent: some View {
+        VStack(spacing: 20) {
+            // Back to categories
+            HStack {
+                Button {
+                    withAnimation { showCategoryPicker = true }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 13, weight: .semibold))
+                        Text("Categories")
+                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                    }
+                    .foregroundStyle(GlyphTheme.accent)
+                }
+                Spacer()
+                if selectedCategory != .custom {
+                    // Shuffle button for presets
+                    Button {
+                        let preset = selectedCategory.presetQuestions.shuffled()
+                        withAnimation { questions = Array(preset.prefix(questionCount)) }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "shuffle")
+                                .font(.system(size: 13, weight: .semibold))
+                            Text("Shuffle")
+                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                        }
+                        .foregroundStyle(GlyphTheme.violet)
+                    }
+                }
+            }
+            .padding(.horizontal, 24)
+
+            GlyphTextField(label: "Quiz Title", placeholder: "e.g., Movie Night Quiz", text: $title)
+                .padding(.horizontal, 24)
 
             ForEach(questions.indices, id: \.self) { i in
                 triviaRow(at: i)
+                    .padding(.horizontal, 24)
             }
 
             AddItemButton(label: "Add Question") {
                 withAnimation { questions.append(TriviaQuestionInput()) }
             }
+            .padding(.horizontal, 24)
 
             SizeEstimateView(estimatedBytes: estimateSize())
+                .padding(.horizontal, 24)
 
             GenerateButtonView(isGenerating: isGenerating) { generate() }
                 .disabled(title.isEmpty || questions.isEmpty)
+                .padding(.horizontal, 24)
         }
-        .padding(.horizontal, 24)
         .padding(.vertical, 16)
     }
 
@@ -392,7 +762,7 @@ struct TriviaEditorView: View {
     }
 
     private func estimateSize() -> Int {
-        let rawSize = 2000 + questions.count * 100
+        let rawSize = 2800 + questions.count * 120
         return rawSize / 4
     }
 
@@ -414,7 +784,7 @@ struct TriviaEditorView: View {
                 return
             }
             let html = WebTemplateGenerator.generateTrivia(
-                title: title.isEmpty ? "Glyph Trivia" : title,
+                title: title.isEmpty ? "Quiz" : title,
                 questions: qs
             )
             let bundle = GlyphWebBundle(title: title, html: html, templateType: "trivia", createdAt: Date())

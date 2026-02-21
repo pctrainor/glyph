@@ -75,7 +75,7 @@ export default function App() {
             Demos
           </button>
           <a
-            href="https://testflight.apple.com/join/YOUR_LINK"
+            href="https://testflight.apple.com/join/pJ72EpPS"
             className="nav-cta"
             target="_blank"
             rel="noopener"
@@ -132,7 +132,7 @@ function HeroSection({ onGenerate, onDemos }: { onGenerate: () => void; onDemos:
             Try Live Demos
           </button>
           <a
-            href="https://testflight.apple.com/join/YOUR_LINK"
+            href="https://testflight.apple.com/join/pJ72EpPS"
             className="btn btn-secondary"
             target="_blank"
             rel="noopener"
@@ -181,10 +181,10 @@ function HeroSection({ onGenerate, onDemos }: { onGenerate: () => void; onDemos:
           </div>
           <div className="feature-card">
             <div className="feature-icon">EXP</div>
-            <h3>Experiences</h3>
+            <h3>Apps</h3>
             <p>
-              Create interactive web experiences — trivia, stories, surveys —
-              all in a QR code.
+              Run interactive apps — translate, survey, games —
+              all delivered via QR code.
             </p>
           </div>
         </div>
