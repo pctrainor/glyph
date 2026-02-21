@@ -1,0 +1,830 @@
+/* ─── Glyph Draw Game Styles ─────────────────────────────────────── */
+
+.draw-game {
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── Scoreboard ───────────────────────────────────────────────── */
+
+.dg-scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dg-score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.dg-score-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.dg-score-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dg-round-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Menu ─────────────────────────────────────────────────────── */
+
+.dg-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+.dg-menu-icon {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.dg-menu-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dg-menu-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.dg-menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 360px;
+  margin: 1rem 0;
+}
+
+.dg-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dg-option-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dg-option-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dg-option-btn {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: capitalize;
+}
+
+.dg-option-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  color: #000;
+  border-color: transparent;
+}
+
+.dg-option-btn:hover:not(.active) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.dg-start-btn {
+  margin-top: 1rem;
+  padding: 0.9rem 2.5rem;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dg-start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(102, 217, 255, 0.3);
+}
+
+.dg-start-btn:active {
+  transform: scale(0.97);
+}
+
+.dg-menu-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-top: 0.5rem;
+}
+
+/* ─── Drawing Phase ────────────────────────────────────────────── */
+
+.dg-drawing-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.dg-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  max-width: 500px;
+}
+
+.dg-prompt-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dg-prompt-word {
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: capitalize;
+  flex: 1;
+}
+
+.dg-timer {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  min-width: 3ch;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+.dg-timer.urgent {
+  color: var(--danger);
+  animation: pulse-urgent 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse-urgent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.dg-canvas-wrapper {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: #0d0d14;
+}
+
+.dg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.dg-canvas.small {
+  pointer-events: none;
+}
+
+.dg-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  max-width: 500px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dg-colors {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.dg-color-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.dg-color-btn.active {
+  border-color: #fff;
+  transform: scale(1.15);
+}
+
+.dg-color-btn:hover:not(.active) {
+  transform: scale(1.1);
+}
+
+.dg-brushes {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.dg-brush-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+
+.dg-brush-btn.active {
+  border-color: var(--accent);
+  background: rgba(102, 217, 255, 0.1);
+}
+
+.dg-brush-dot {
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.dg-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.dg-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.dg-action-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.dg-done-btn {
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dg-done-btn:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ─── Guessing Phase ───────────────────────────────────────────── */
+
+.dg-guessing-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  animation: fadeUp 0.4s ease;
+}
+
+.dg-guess-header {
+  text-align: center;
+}
+
+.dg-guess-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.dg-guess-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.dg-guess-icon {
+  font-size: 2.5rem;
+}
+
+.dg-canvas-preview {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: #0d0d14;
+  opacity: 0.7;
+}
+
+.dg-guess-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.dg-guess-input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.dg-guess-input:focus {
+  border-color: var(--accent);
+}
+
+.dg-guess-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.dg-guess-submit {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.dg-guess-submit:hover {
+  transform: scale(1.03);
+}
+
+.dg-guess-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── AI Thinking ──────────────────────────────────────────────── */
+
+.dg-thinking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 1rem;
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+}
+
+.dg-thinking h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.dg-thinking p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.dg-thinking-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Result ───────────────────────────────────────────────────── */
+
+.dg-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  animation: fadeUp 0.4s ease;
+  position: relative;
+}
+
+.dg-result-answer {
+  text-align: center;
+}
+
+.dg-result-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.dg-result-word {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dg-result-card-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dg-vs {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.dg-result-card {
+  flex: 1;
+  padding: 1.25rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s;
+}
+
+.dg-result-card.correct {
+  border-color: var(--success);
+  box-shadow: 0 0 20px rgba(68, 221, 136, 0.15);
+}
+
+.dg-result-card.wrong {
+  border-color: var(--danger);
+  box-shadow: 0 0 20px rgba(255, 68, 102, 0.1);
+}
+
+.dg-result-card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.dg-result-card-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.dg-result-card-guess {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  word-break: break-word;
+}
+
+.dg-result-card-verdict {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.dg-result-card.correct .dg-result-card-verdict {
+  color: var(--success);
+}
+
+.dg-result-card.wrong .dg-result-card-verdict {
+  color: var(--danger);
+}
+
+.dg-result-scores {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.dg-next-btn {
+  padding: 0.8rem 2.5rem;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  color: #000;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.dg-next-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ─── Final Results ────────────────────────────────────────────── */
+
+.dg-final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+
+.dg-final-icon {
+  font-size: 4rem;
+}
+
+.dg-final-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dg-final-scores {
+  display: flex;
+  gap: 2rem;
+}
+
+.dg-final-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 120px;
+}
+
+.dg-final-score.winner {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(102, 217, 255, 0.2);
+}
+
+.dg-final-score-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.dg-final-score-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dg-final-history {
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+}
+
+.dg-final-history h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.dg-history-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dg-history-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #0d0d14;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dg-history-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.dg-history-word {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.dg-history-guesses {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dg-final-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.dg-back-btn {
+  padding: 0.8rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dg-back-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.dg-final-cta {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(102, 217, 255, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.dg-final-cta p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.dg-cta-link {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.dg-cta-link:hover {
+  color: var(--violet);
+}
+
+/* ─── Confetti (simple CSS) ────────────────────────────────────── */
+
+.dg-confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+  background-image:
+    radial-gradient(circle, var(--accent) 1px, transparent 1px),
+    radial-gradient(circle, var(--violet) 1px, transparent 1px),
+    radial-gradient(circle, var(--success) 1px, transparent 1px),
+    radial-gradient(circle, var(--warning) 1px, transparent 1px);
+  background-size: 60px 60px, 80px 80px, 70px 70px, 90px 90px;
+  background-position: 0 0, 30px 30px, 15px 45px, 50px 10px;
+  animation: confetti-fall 2s ease-out forwards;
+  opacity: 0.6;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100%); opacity: 0.7; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* ─── Animations ───────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+
+@media (max-width: 500px) {
+  .dg-result-card-row {
+    flex-direction: column;
+  }
+
+  .dg-vs {
+    display: none;
+  }
+
+  .dg-toolbar {
+    gap: 0.6rem;
+  }
+
+  .dg-final-scores {
+    gap: 1rem;
+  }
+
+  .dg-prompt-word {
+    font-size: 1.1rem;
+  }
+}

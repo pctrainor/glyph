@@ -6,6 +6,7 @@ import {
   EXPIRATION_OPTIONS,
 } from './glyphCrypto'
 import DemosPage from './Demos'
+import DrawGame from './DrawGame'
 import './App.css'
 
 // ─── Preset Messages ─────────────────────────────────────────────────
@@ -46,7 +47,7 @@ const PRESETS = [
 // ─── App ──────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'generate' | 'demos'>('home')
+  const [activeTab, setActiveTab] = useState<'home' | 'generate' | 'demos' | 'draw'>('home')
 
   return (
     <div className="app">
@@ -74,6 +75,12 @@ export default function App() {
           >
             Demos
           </button>
+          <button
+            className={`nav-link ${activeTab === 'draw' ? 'active' : ''}`}
+            onClick={() => setActiveTab('draw')}
+          >
+            🎨 Draw
+          </button>
           <a
             href="https://testflight.apple.com/join/YOUR_LINK"
             className="nav-cta"
@@ -89,13 +96,15 @@ export default function App() {
         <HeroSection onGenerate={() => setActiveTab('generate')} onDemos={() => setActiveTab('demos')} />
       ) : activeTab === 'demos' ? (
         <DemosPage />
+      ) : activeTab === 'draw' ? (
+        <DrawGame />
       ) : (
         <GeneratorSection />
       )}
 
       <footer className="footer">
         <div className="footer-content">
-          <img src={`${import.meta.env.BASE_URL}app-icon.png`} alt="Glyph" className="footer-logo" />
+          <img src={`${import.meta.env.BASE_URL}glyph-logo.svg`} alt="Glyph" className="footer-logo" />
           <p>Glyph — Vanishing QR Messages</p>
           <p className="footer-sub">
             End-to-end encrypted with AES-256-GCM. Messages exist only in the
